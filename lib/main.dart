@@ -7,8 +7,10 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/splash/splash_page.dart';
 import 'package:guyhub/widget/common.dart';
+import 'package:media_kit/media_kit.dart';
 
 void main() {
+  MediaKit.ensureInitialized();
   runApp(const MyApp());
 }
 

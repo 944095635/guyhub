@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:guyhub/model/plugin_app.dart';
 import 'package:guyhub/plugin/unsplash/home/home_page.dart' as upsplash;
 import 'package:guyhub/page/home/home_page_controller.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
@@ -12,10 +13,25 @@ class HomePage extends GetView<HomePageController> {
     Get.put(HomePageController());
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
+      backgroundColor: Color(0xFFF8F8F8),
       body: ListView.builder(
-        itemCount: controller.apps.length,
+        itemCount: controller.apps.length + 1,
         itemBuilder: (context, index) {
-          PluginApp app = controller.apps[index];
+          if (index == 0) {
+            return buildCard(
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Video(
+                    controller: controller.controller,
+                    controls: NoVideoControls,
+                  ),
+                ),
+              ),
+            );
+          }
+          PluginApp app = controller.apps[index - 1];
           return GestureDetector(
             child: buildItem(app),
             onTap: () {
@@ -43,6 +59,26 @@ class HomePage extends GetView<HomePageController> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(app.name),
+      ),
+    );
+  }
+
+  Widget buildCard({required Widget child}) {
+    return AspectRatio(
+      aspectRatio: 21 / 9,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0xFFF9F9F9),
+              blurRadius: 30,
+            ),
+          ],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: child,
       ),
     );
   }
