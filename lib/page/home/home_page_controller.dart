@@ -8,7 +8,7 @@ class HomePageController extends GetxController {
   void onInit() {
     super.onInit();
 
-    apps.add(PluginApp(name: "图虫"));
-    apps.add(PluginApp(name: "花瓣"));
+    apps.add(PluginApp(name: "unsplash",logo:"http://milimili.tv/style/images/logo.png"));
+    apps.add(PluginApp(name: "Milimili.tv",logo:"http://milimili.tv/style/images/logo.png"));
   }
 }

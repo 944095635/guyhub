@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/plugin_app.dart';
+import 'package:guyhub/plugin/unsplash/home/home_page.dart' as upsplash;
 import 'package:guyhub/page/home/home_page_controller.dart';
 
 class HomePage extends GetView<HomePageController> {
@@ -15,7 +16,12 @@ class HomePage extends GetView<HomePageController> {
         itemCount: controller.apps.length,
         itemBuilder: (context, index) {
           PluginApp app = controller.apps[index];
-          return buildItem(app);
+          return GestureDetector(
+            child: buildItem(app),
+            onTap: () {
+              Get.to(() => const upsplash.HomePage());
+            },
+          );
         },
       ),
     );

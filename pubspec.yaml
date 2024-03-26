@@ -36,11 +36,16 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   # cupertino_icons: ^1.0.6
   get: ^4.6.6                  #业务分类&导航等
+  http: ^1.2.1                 #网络请求
   flutter_screenutil: ^5.9.0   #多分辨率兼容
   flutter_smart_dialog: ^4.9.6 #提示窗 加载窗
   flutter_svg: ^2.0.10+1       #SVG图标
+  cached_network_image: ^3.3.1 #图片缓存
+  json_annotation: ^4.8.1      #JSON
+  easy_refresh: ^3.3.4         #下拉刷新
+  flutter_staggered_grid_view: ^0.7.0 #瀑布流
 
-  # dotted_line: ^3.2.2          #虚线
+  # dotted_line: ^3.2.2        #虚线
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +56,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.7               #JSON
+  json_serializable: ^6.6.1          #JSON
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
