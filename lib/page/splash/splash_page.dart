@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guyhub/pages/home/home_page.dart';
+import 'package:guyhub/page/frame/frame_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -20,7 +20,7 @@ class SplashPage extends StatelessWidget {
     //跳转到不同的页面
     await Future.delayed(Durations.extralong4);
     Get.offAll(
-      () => const HomePage(),
+      () => const FramePage(),
       transition: Transition.fadeIn,
     );
   }

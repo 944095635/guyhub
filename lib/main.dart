@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:guyhub/pages/splash/splash_page.dart';
+import 'package:guyhub/page/splash/splash_page.dart';
+import 'package:guyhub/widget/common.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +39,17 @@ class MyApp extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark, //状态栏黑色图标
             systemNavigationBarColor: Colors.white,
           ),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          backgroundColor: glassColor,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: const Color(0xFF000000),
+          unselectedItemColor: const Color(0xFFAEAEAE),
+          selectedLabelStyle: TextStyle(fontSize: 11.sp),
+          unselectedLabelStyle: TextStyle(fontSize: 11.sp),
         ),
       ),
       home: const SplashPage(),
