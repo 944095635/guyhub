@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/splash/splash_page.dart';
+import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/widget/common.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -28,10 +29,14 @@ class MyApp extends StatelessWidget {
     }
     return GetMaterialApp(
       title: 'Guy Hub',
+      defaultTransition: Transition.rightToLeft,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        extensions: [MyTheme.light],
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+        //scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           elevation: 0,
           scrolledUnderElevation: 0,
@@ -54,6 +59,11 @@ class MyApp extends StatelessWidget {
           selectedLabelStyle: TextStyle(fontSize: 11.sp),
           unselectedLabelStyle: TextStyle(fontSize: 11.sp),
         ),
+      ),
+      darkTheme: ThemeData(
+        extensions: [MyTheme.dark],
+        scaffoldBackgroundColor: Colors.black,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
       ),
       home: const SplashPage(),
       builder: FlutterSmartDialog.init(

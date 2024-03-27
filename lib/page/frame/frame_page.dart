@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:guyhub/page/extension/extension_page.dart';
 import 'package:guyhub/page/frame/frame_page_controller.dart';
 import 'package:guyhub/page/home/home_page.dart';
 import 'package:guyhub/util/image_helper.dart';
@@ -20,6 +21,7 @@ class FramePage extends GetView<FramePageController> {
           index: controller.selectPageIndex.value,
           children: const [
             HomePage(),
+            ExtensionPage(),
             Text("data"),
           ],
         ),
@@ -44,6 +46,17 @@ class FramePage extends GetView<FramePageController> {
                 label: "首页",
               ),
               BottomNavigationBarItem(
+                activeIcon: buildExtensionButton(
+                  Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+                ),
+                icon: buildExtensionButton(
+                  Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor,
+                ),
+                label: "插件",
+              ),
+              BottomNavigationBarItem(
                 activeIcon: buildMyButton(
                   Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
                 ),
@@ -65,6 +78,14 @@ class FramePage extends GetView<FramePageController> {
   Widget buildHomeButton(Color? color) {
     return ImageHelper.getSvg(
       "frame_home",
+      color: color,
+    );
+  }
+
+  /// 插件
+  Widget buildExtensionButton(Color? color) {
+    return ImageHelper.getSvg(
+      "frame_archive",
       color: color,
     );
   }

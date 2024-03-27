@@ -13,7 +13,6 @@ class HomePage extends GetView<HomePageController> {
     Get.put(HomePageController());
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
-      backgroundColor: Color(0xFFF8F8F8),
       body: ListView.builder(
         itemCount: controller.apps.length + 1,
         itemBuilder: (context, index) {
