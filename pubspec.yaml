@@ -35,24 +35,24 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   # cupertino_icons: ^1.0.6
+
   get: ^4.6.6                  #业务分类&导航等
+  path: ^1.9.0
   http: ^1.2.1                 #网络请求
+  easy_refresh: ^3.3.4         #下拉刷新
+  path_provider: ^2.1.2
+  flutter_svg: ^2.0.10+1       #SVG图标
+  json_annotation: ^4.8.1      #JSON
   flutter_screenutil: ^5.9.0   #多分辨率兼容
   flutter_smart_dialog: ^4.9.6 #提示窗 加载窗
-  flutter_svg: ^2.0.10+1       #SVG图标
   cached_network_image: ^3.3.1 #图片缓存
-  json_annotation: ^4.8.1      #JSON
-  easy_refresh: ^3.3.4         #下拉刷新
   flutter_staggered_grid_view: ^0.7.0 #瀑布流
-  path: ^1.9.0
-  path_provider: ^2.1.2
 
   #---------------------------------------------------------------------
   media_kit: ^1.1.10+1                 #视频播放主包
   media_kit_video: ^1.2.4              #视频渲染支持
   media_kit_libs_video: ^1.0.4         #视频解码支持
   #media_kit_libs_audio: ^1.0.4        #音频解码支持
-
   # dotted_line: ^3.2.2        #虚线
 
 dev_dependencies:
@@ -64,7 +64,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
   build_runner: ^2.4.7               #JSON
   json_serializable: ^6.6.1          #JSON
 
