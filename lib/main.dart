@@ -55,14 +55,24 @@ class MyApp extends StatelessWidget {
             systemNavigationBarColor: Colors.white,
           ),
         ),
+        textTheme: TextTheme(
+          //Appbar
+          titleLarge: TextStyle(fontSize: 18.sp),
+
+          //titleMedium: TextStyle(fontSize: 33),
+          //bodyLarge:  TextStyle(fontSize: 23),
+          //bodyMedium:  TextStyle(fontSize: 23),
+          //displayLarge:   TextStyle(fontSize: 23),
+          //displayMedium:  TextStyle(fontSize: 23),
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           backgroundColor: glassColor,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          //selectedItemColor: const Color(0xFF000000),
-          unselectedItemColor: const Color(0xFFAAAAAA),
+          //showSelectedLabels: false,
+          //showUnselectedLabels: false,
+          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.black26,
           selectedLabelStyle: TextStyle(fontSize: 11.sp),
           unselectedLabelStyle: TextStyle(fontSize: 11.sp),
         ),

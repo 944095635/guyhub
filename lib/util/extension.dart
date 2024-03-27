@@ -8,8 +8,11 @@ class ExtensionUtils {
   /// 已经安装的所有插件
   static late List<String> setups;
 
+  static late List<Extension> _extensions;
+
   static void ensureInitialized() {
     setups = [];
+    _extensions = [];
     _loadExtension();
   }
 
@@ -45,6 +48,7 @@ class ExtensionUtils {
   /// 重新读取插件列表
   static void _loadExtension() async {
     setups.clear();
+    _extensions.clear();
     // 获取扩展列表
     final extensionsList = Directory(PathUtils.extensionsDir).listSync();
     // 遍历扩展列表
@@ -55,8 +59,13 @@ class ExtensionUtils {
         // 如果文件名和包名不一致，抛出异常
         final ext = ExtensionUtils.parseExtension(content);
         setups.add(ext.package);
+        _extensions.add(ext);
       }
     }
+  }
+
+  static List<Extension> getExtensions() {
+    return _extensions;
   }
 
   // ==MiruExtension==

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_repo_page_controller.dart';
 import 'package:guyhub/style/theme.dart';
+import 'package:guyhub/widget/appbar.dart';
 
 /// 官方插件
 class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
@@ -15,9 +16,8 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
     Get.put(ExtensionRepoPageController());
     MyTheme theme = Theme.of(context).extension<MyTheme>()!;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Install Extension"),
-      ),
+      //Install Extension
+      appBar: buildAppBarText("安装插件"),
       body: controller.obx(
         (state) => ListView.builder(
           itemCount: state!.length,

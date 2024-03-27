@@ -80,16 +80,16 @@ class FramePage extends GetView<FramePageController> {
     return ImageHelper.getSvg(
       "home",
       color: color,
-      size: 20.sp,
+      size: 26.sp,
     );
   }
 
   /// 插件
   Widget buildExtensionButton(Color? color) {
     return ImageHelper.getSvg(
-      "star",
+      "apps",
       color: color,
-      size: 20.sp,
+      size: 26.sp,
     );
   }
 
@@ -98,7 +98,7 @@ class FramePage extends GetView<FramePageController> {
     return ImageHelper.getSvg(
       "user",
       color: color,
-      size: 20.sp,
+      size: 26.sp,
     );
   }
 }
