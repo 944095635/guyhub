@@ -20,6 +20,7 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
       appBar: buildAppBarText("安装插件"),
       body: controller.obx(
         (state) => ListView.builder(
+          padding: EdgeInsets.all(20.w),
           itemCount: state!.length,
           itemBuilder: (context, index) {
             Extension extension = state[index];
@@ -36,10 +37,9 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: EdgeInsets.all(10.w),
-      margin: EdgeInsets.symmetric(
-        vertical: 4.h,
-        horizontal: 20.w,
+      padding: EdgeInsets.all(20.w),
+      margin: EdgeInsets.only(
+        bottom: 10.h,
       ),
       child: Row(
         children: [

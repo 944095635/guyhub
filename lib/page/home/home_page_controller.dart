@@ -16,7 +16,7 @@ class HomePageController extends GetxController {
   void onInit() {
     super.onInit();
 
-    player.open(Media('asset:///assets/1.mp4'));
+    //player.open(Media('asset:///assets/1.mp4'));
 
     apps.add(PluginApp(
         name: "unsplash", logo: "http://milimili.tv/style/images/logo.png"));

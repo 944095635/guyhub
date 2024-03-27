@@ -38,6 +38,7 @@ class ExtensionUtils {
         await file.delete();
       }
       setups.remove(ext.package);
+      _extensions.removeWhere((e) => e.package == ext.package);
       return true;
     } catch (e) {
       //

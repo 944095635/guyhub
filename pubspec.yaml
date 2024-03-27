@@ -37,10 +37,11 @@ dependencies:
   # cupertino_icons: ^1.0.6
 
   get: ^4.6.6                  #业务分类&导航等
-  path: ^1.9.0
+  path: ^1.9.0                 #路径处理
   http: ^1.2.1                 #网络请求
+  flutter_js: ^0.8.0           #执行JS
   easy_refresh: ^3.3.4         #下拉刷新
-  path_provider: ^2.1.2
+  path_provider: ^2.1.2        #路径获取
   flutter_svg: ^2.0.10+1       #SVG图标
   json_annotation: ^4.8.1      #JSON
   flutter_screenutil: ^5.9.0   #多分辨率兼容
@@ -82,9 +83,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/
+     - assets/js/
      - assets/svg/
      - assets/images/
-     - assets/images/icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

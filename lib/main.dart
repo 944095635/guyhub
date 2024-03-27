@@ -8,10 +8,8 @@ import 'package:get/get.dart';
 import 'package:guyhub/page/splash/splash_page.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/widget/common.dart';
-import 'package:media_kit/media_kit.dart';
 
 void main() {
-  MediaKit.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -88,6 +86,18 @@ class MyApp extends StatelessWidget {
         extensions: [MyTheme.dark],
         scaffoldBackgroundColor: Colors.black,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarBrightness: Brightness.dark,
+            statusBarIconBrightness: Brightness.light, //状态栏黑色图标
+            systemNavigationBarColor: Colors.white,
+          ),
+        ),
       ),
       home: const SplashPage(),
       builder: FlutterSmartDialog.init(

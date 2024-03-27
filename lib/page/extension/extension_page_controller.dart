@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:guyhub/page/extension/extension_repo_page.dart';
 import 'package:guyhub/util/extension.dart';
 
 class ExtensionPageController extends GetxController with StateMixin<List> {
@@ -21,6 +22,11 @@ class ExtensionPageController extends GetxController with StateMixin<List> {
   }
 
   void reload() {
+    loadData();
+  }
+
+  void addExtension() async {
+    await Get.to(() => const ExtensionRepoPage());
     loadData();
   }
 }

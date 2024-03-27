@@ -111,7 +111,7 @@ class MyTheme extends ThemeExtension<MyTheme> {
       fontSize: 13.sp,
       color: const Color(0xFFBBBBBB),
     ),
-    cardColor: const Color(0xFF666666),
+    cardColor: const Color(0xFF222222),
 
     /// 图标颜色
     iconColor: const Color(0xFF666666),

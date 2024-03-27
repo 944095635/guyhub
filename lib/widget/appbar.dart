@@ -22,14 +22,15 @@ AppBar buildAppBar({
         ? IconButton(
             icon: ImageHelper.getSvg(
               "back",
-              color: Colors.black,
-              size: 24.sp,
+              color: Theme.of(Get.context!).appBarTheme.foregroundColor,
+              size: 20.sp,
             ),
             onPressed: () {
               Navigator.of(Get.context!).maybePop();
             },
           )
         : null,
+    titleSpacing: Navigator.canPop(Get.context!) ? 0 : null,
     title: title,
     actions: actions,
   );

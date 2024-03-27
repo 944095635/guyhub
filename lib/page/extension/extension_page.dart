@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_page_controller.dart';
-import 'package:guyhub/page/extension/extension_repo_page.dart';
+import 'package:guyhub/page/extension/extension_run_page.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/util/image_helper.dart';
 import 'package:guyhub/widget/appbar.dart';
@@ -24,13 +24,11 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         "插件列表",
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: controller.addExtension,
             icon: ImageHelper.getSvg("add"),
           ),
           IconButton(
-            onPressed: () {
-              Get.to(() => const ExtensionRepoPage());
-            },
+            onPressed: controller.addExtension,
             icon: ImageHelper.getSvg("app_store"),
           ),
           10.horizontalSpace,
@@ -85,7 +83,9 @@ class ExtensionPage extends GetView<ExtensionPageController> {
           ),
           20.horizontalSpace,
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => const ExtensionRunPage(), arguments: extension);
+            },
             child: const Text(
               "启动",
             ),
