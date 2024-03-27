@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_repo_page_controller.dart';
 import 'package:guyhub/style/theme.dart';
-import 'package:guyhub/util/image_helper.dart';
 
 /// 官方插件
 class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
@@ -39,65 +38,86 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
       ),
       padding: EdgeInsets.all(10.w),
       margin: EdgeInsets.symmetric(
-        vertical: 10.h,
+        vertical: 4.h,
         horizontal: 20.w,
       ),
       child: Row(
         children: [
-          buildLogo(extension.icon!),
+          buildLogo(extension.icon),
           20.horizontalSpace,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  extension.name,
-                  style: theme.bodyStyle,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        extension.name,
+                        style: theme.bodyStyle,
+                      ),
+                    ),
+                    Text(
+                      extension.version,
+                      style: theme.tipsStyle,
+                    ),
+                  ],
                 ),
                 Text(
-                  extension.version,
-                  style: theme.tipsStyle,
-                ),
-                Text(
-                  extension.type.toString(),
-                  style: theme.tipsStyle,
-                ),
-                Text(
-                  extension.lang,
+                  "${extension.lang}，${extension.type}",
                   style: theme.tipsStyle,
                 ),
               ],
             ),
           ),
           20.horizontalSpace,
-          IconButton(
-            style: const ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(
-                Color(0xFFF3F3F3),
-              ),
-            ),
-            onPressed: () {},
-            icon: ImageHelper.getSvg(
-              "arrow-down",
-              size: 18.sp,
-            ),
-          )
+          Obx(
+            () => extension.install.value
+                ? TextButton(
+                    onPressed: () {
+                      controller.uninstall(extension);
+                    },
+                    child: const Text(
+                      "卸载",
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      controller.install(extension);
+                    },
+                    child: extension.download.value
+                        ? SizedBox(
+                            width: 14.w,
+                            height: 14.w,
+                            child: const CircularProgressIndicator(),
+                          )
+                        : const Text("安装"),
+                  ),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildLogo(String image) {
-    return Container(
-      width: 60.w,
-      height: 60.w,
-      decoration: BoxDecoration(
-        //color: const Color(0xFFEDEDED),
-        borderRadius: BorderRadius.circular(10),
-        image: DecorationImage(
-          image: CachedNetworkImageProvider(image),
-        ),
-      ),
-    );
+  Widget buildLogo(String? image) {
+    return image != null
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(10.r),
+            child: CachedNetworkImage(
+              imageUrl: image,
+              width: 60.w,
+              height: 60.w,
+            ),
+          )
+        : Container(
+            width: 60.w,
+            height: 60.w,
+            decoration: BoxDecoration(
+              color: const Color(0xFFEDEDED),
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+          );
   }
 }

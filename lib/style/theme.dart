@@ -1,20 +1,35 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyTheme extends ThemeExtension<MyTheme> {
   @override
   ThemeExtension<MyTheme> copyWith() {
-    // TODO: implement copyWith
-    throw UnimplementedError();
+    return MyTheme(
+      titleStyle: titleStyle,
+      bodyStyle: bodyStyle,
+      tipsStyle: tipsStyle,
+      cardColor: cardColor,
+      iconColor: iconColor,
+      iconButtonStyle: iconButtonStyle,
+      secondaryButtonStyle: secondaryButtonStyle,
+    );
   }
 
   @override
   ThemeExtension<MyTheme> lerp(
       covariant ThemeExtension<MyTheme>? other, double t) {
-    // TODO: implement lerp
-    throw UnimplementedError();
+    if (other is! MyTheme) {
+      return this;
+    }
+    return MyTheme(
+      titleStyle: titleStyle,
+      bodyStyle: bodyStyle,
+      tipsStyle: tipsStyle,
+      cardColor: cardColor,
+      iconColor: iconColor,
+      iconButtonStyle: iconButtonStyle,
+      secondaryButtonStyle: secondaryButtonStyle,
+    );
   }
 
   const MyTheme({
@@ -22,6 +37,9 @@ class MyTheme extends ThemeExtension<MyTheme> {
     required this.bodyStyle,
     required this.tipsStyle,
     required this.cardColor,
+    required this.iconColor,
+    required this.iconButtonStyle,
+    required this.secondaryButtonStyle,
   });
 
   /// 主题内容字体
@@ -35,6 +53,15 @@ class MyTheme extends ThemeExtension<MyTheme> {
 
   /// 卡片颜色
   final Color? cardColor;
+
+  /// 卡片颜色
+  final Color? iconColor;
+
+  /// 带背景色的图标按钮
+  final ButtonStyle iconButtonStyle;
+
+  /// 次要的按钮
+  final ButtonStyle secondaryButtonStyle;
 
   /// 白色主题
   static final light = MyTheme(
@@ -50,7 +77,24 @@ class MyTheme extends ThemeExtension<MyTheme> {
       fontSize: 13.sp,
       color: const Color(0xFF666666),
     ),
-    cardColor:const Color(0xFFEFEFEF),
+
+    /// 卡片的背景色
+    cardColor: Colors.white,
+
+    /// 图标颜色
+    iconColor: const Color(0xFF666666),
+    iconButtonStyle: const ButtonStyle(
+      backgroundColor: MaterialStatePropertyAll(
+        Color(0xFFFEFEFE),
+      ),
+    ),
+
+    /// 次要按钮
+    secondaryButtonStyle: const ButtonStyle(
+      foregroundColor: MaterialStatePropertyAll(
+        Color(0xFF666666),
+      ),
+    ),
   );
 
   /// 黑色主题
@@ -67,6 +111,21 @@ class MyTheme extends ThemeExtension<MyTheme> {
       fontSize: 13.sp,
       color: const Color(0xFFBBBBBB),
     ),
-    cardColor:const Color(0xFF666666),
+    cardColor: const Color(0xFF666666),
+
+    /// 图标颜色
+    iconColor: const Color(0xFF666666),
+    iconButtonStyle: const ButtonStyle(
+      backgroundColor: MaterialStatePropertyAll(
+        Color(0xFFF3F3F3),
+      ),
+    ),
+
+    /// 次要按钮
+    secondaryButtonStyle: const ButtonStyle(
+      foregroundColor: MaterialStatePropertyAll(
+        Color(0xFF666666),
+      ),
+    ),
   );
 }

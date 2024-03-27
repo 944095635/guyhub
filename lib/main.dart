@@ -33,10 +33,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         extensions: [MyTheme.light],
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          //primary: Colors.amber,
+          //primaryContainer: Colors.amber,
+          //onPrimary: Colors.red,
+          //secondary: Colors.red,
+          //onSecondary: Colors.amber,
+        ),
         useMaterial3: true,
-        //scaffoldBackgroundColor: const Color(0xFFFAFAFA),
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+        //scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           elevation: 0,
           scrolledUnderElevation: 0,
@@ -54,10 +61,17 @@ class MyApp extends StatelessWidget {
           backgroundColor: glassColor,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: const Color(0xFF000000),
-          unselectedItemColor: const Color(0xFFAEAEAE),
+          //selectedItemColor: const Color(0xFF000000),
+          unselectedItemColor: const Color(0xFFAAAAAA),
           selectedLabelStyle: TextStyle(fontSize: 11.sp),
           unselectedLabelStyle: TextStyle(fontSize: 11.sp),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: ButtonStyle(
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
+            ),
+          ),
         ),
       ),
       darkTheme: ThemeData(

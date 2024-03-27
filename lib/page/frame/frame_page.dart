@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/extension/extension_page.dart';
 import 'package:guyhub/page/frame/frame_page_controller.dart';
@@ -77,24 +78,27 @@ class FramePage extends GetView<FramePageController> {
   /// 首页按钮
   Widget buildHomeButton(Color? color) {
     return ImageHelper.getSvg(
-      "frame_home",
+      "home",
       color: color,
+      size: 20.sp,
     );
   }
 
   /// 插件
   Widget buildExtensionButton(Color? color) {
     return ImageHelper.getSvg(
-      "frame_archive",
+      "star",
       color: color,
+      size: 20.sp,
     );
   }
 
   /// 我的按钮
   Widget buildMyButton(Color? color) {
     return ImageHelper.getSvg(
-      "frame_my",
+      "user",
       color: color,
+      size: 20.sp,
     );
   }
 }
