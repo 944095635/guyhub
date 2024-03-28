@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'extension.g.dart';
 
+/// 扩展类型
 enum ExtensionType {
   /// 漫画
   manga,
@@ -30,7 +31,12 @@ enum ExtensionType {
   }
 }
 
-enum ExtensionWatchBangumiType { hls, mp4, torrent }
+/// 扩展的播放类型
+enum ExtensionWatchBangumiType {
+  hls,
+  mp4,
+  torrent,
+}
 
 @JsonSerializable()
 class Extension {

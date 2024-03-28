@@ -25,7 +25,7 @@ class ExtensionRunPage extends GetView<ExtensionRunPageController> {
             onRefresh: () {
               //controller.reload();
             },
-            onLoad: () async{
+            onLoad: () async {
               await controller.loadMore();
             },
             child: ListView.separated(
@@ -53,7 +53,7 @@ class ExtensionRunPage extends GetView<ExtensionRunPageController> {
   Widget buildItem(MyTheme theme, ExtensionListItem item) {
     return GestureDetector(
       onTap: () {
-        controller.play(item);
+        Get.to(() => const ExtensionRunPage(), arguments: item);
       },
       child: AspectRatio(
         aspectRatio: 21 / 9,
