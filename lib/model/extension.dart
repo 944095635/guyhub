@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'extension.g.dart';
@@ -38,6 +36,11 @@ enum ExtensionWatchBangumiType {
   torrent,
 }
 
+enum ExtensionLogLevel {
+  info,
+  error,
+}
+
 @JsonSerializable()
 class Extension {
   Extension({
@@ -55,7 +58,7 @@ class Extension {
   });
 
   /// 少儿不宜
-  late String? nsfw;
+  String? nsfw;
   final String package;
   final String author;
   final String version;
@@ -80,6 +83,28 @@ class Extension {
       _$ExtensionFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExtensionToJson(this);
+}
+
+@JsonSerializable()
+class ExtensionFilter {
+  ExtensionFilter({
+    required this.title,
+    required this.min,
+    required this.max,
+    required this.defaultOption,
+    required this.options,
+  });
+  final String title;
+  final int min;
+  final int max;
+  @JsonKey(name: "default")
+  final String defaultOption;
+  final Map<String, String> options;
+
+  factory ExtensionFilter.fromJson(Map<String, dynamic> json) =>
+      _$ExtensionFilterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExtensionFilterToJson(this);
 }
 
 @JsonSerializable()
@@ -225,4 +250,52 @@ class ExtensionFikushonWatch {
       _$ExtensionFikushonWatchFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExtensionFikushonWatchToJson(this);
+}
+
+@JsonSerializable()
+class ExtensionLog {
+  ExtensionLog({
+    required this.extension,
+    required this.content,
+    required this.time,
+    required this.level,
+  });
+
+  final DateTime time;
+  final Extension extension;
+  final String content;
+  final ExtensionLogLevel level;
+
+  factory ExtensionLog.fromJson(Map<String, dynamic> json) =>
+      _$ExtensionLogFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExtensionLogToJson(this);
+}
+
+@JsonSerializable()
+class ExtensionNetworkLog {
+  final Extension extension;
+  String? responseBody;
+  String? requestBody;
+  Map<String, dynamic>? requestHeaders;
+  Map<String, dynamic>? responseHeaders;
+  String url;
+  String method;
+  int? statusCode;
+
+  ExtensionNetworkLog({
+    required this.extension,
+    required this.url,
+    required this.method,
+    this.statusCode,
+    this.responseBody,
+    this.requestBody,
+    this.requestHeaders,
+    this.responseHeaders,
+  });
+
+  factory ExtensionNetworkLog.fromJson(Map<String, dynamic> json) =>
+      _$ExtensionNetworkLogFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExtensionNetworkLogToJson(this);
 }

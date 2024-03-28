@@ -18,10 +18,9 @@ Extension _$ExtensionFromJson(Map<String, dynamic> json) => Extension(
       icon: json['icon'] as String?,
       url: json['url'] as String?,
       description: json['description'] as String?,
-    )..nsfw = json['nsfw'] as String?;
+    );
 
 Map<String, dynamic> _$ExtensionToJson(Extension instance) => <String, dynamic>{
-      'nsfw': instance.nsfw,
       'package': instance.package,
       'author': instance.author,
       'version': instance.version,
@@ -40,6 +39,24 @@ const _$ExtensionTypeEnumMap = {
   ExtensionType.bangumi: 'bangumi',
   ExtensionType.fikushon: 'fikushon',
 };
+
+ExtensionFilter _$ExtensionFilterFromJson(Map<String, dynamic> json) =>
+    ExtensionFilter(
+      title: json['title'] as String,
+      min: json['min'] as int,
+      max: json['max'] as int,
+      defaultOption: json['default'] as String,
+      options: Map<String, String>.from(json['options'] as Map),
+    );
+
+Map<String, dynamic> _$ExtensionFilterToJson(ExtensionFilter instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'min': instance.min,
+      'max': instance.max,
+      'default': instance.defaultOption,
+      'options': instance.options,
+    };
 
 ExtensionListItem _$ExtensionListItemFromJson(Map<String, dynamic> json) =>
     ExtensionListItem(
@@ -189,4 +206,49 @@ Map<String, dynamic> _$ExtensionFikushonWatchToJson(
       'content': instance.content,
       'title': instance.title,
       'subtitle': instance.subtitle,
+    };
+
+ExtensionLog _$ExtensionLogFromJson(Map<String, dynamic> json) => ExtensionLog(
+      extension: Extension.fromJson(json['extension'] as Map<String, dynamic>),
+      content: json['content'] as String,
+      time: DateTime.parse(json['time'] as String),
+      level: $enumDecode(_$ExtensionLogLevelEnumMap, json['level']),
+    );
+
+Map<String, dynamic> _$ExtensionLogToJson(ExtensionLog instance) =>
+    <String, dynamic>{
+      'time': instance.time.toIso8601String(),
+      'extension': instance.extension,
+      'content': instance.content,
+      'level': _$ExtensionLogLevelEnumMap[instance.level]!,
+    };
+
+const _$ExtensionLogLevelEnumMap = {
+  ExtensionLogLevel.info: 'info',
+  ExtensionLogLevel.error: 'error',
+};
+
+ExtensionNetworkLog _$ExtensionNetworkLogFromJson(Map<String, dynamic> json) =>
+    ExtensionNetworkLog(
+      extension: Extension.fromJson(json['extension'] as Map<String, dynamic>),
+      url: json['url'] as String,
+      method: json['method'] as String,
+      statusCode: json['statusCode'] as int?,
+      responseBody: json['responseBody'] as String?,
+      requestBody: json['requestBody'] as String?,
+      requestHeaders: json['requestHeaders'] as Map<String, dynamic>?,
+      responseHeaders: json['responseHeaders'] as Map<String, dynamic>?,
+    );
+
+Map<String, dynamic> _$ExtensionNetworkLogToJson(
+        ExtensionNetworkLog instance) =>
+    <String, dynamic>{
+      'extension': instance.extension,
+      'responseBody': instance.responseBody,
+      'requestBody': instance.requestBody,
+      'requestHeaders': instance.requestHeaders,
+      'responseHeaders': instance.responseHeaders,
+      'url': instance.url,
+      'method': instance.method,
+      'statusCode': instance.statusCode,
     };

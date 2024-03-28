@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
+import 'package:guyhub/page/extension/extension_run_detail_page.dart';
 import 'package:guyhub/page/extension/extension_run_page_controller.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/widget/appbar.dart';
@@ -53,7 +53,7 @@ class ExtensionRunPage extends GetView<ExtensionRunPageController> {
   Widget buildItem(MyTheme theme, ExtensionListItem item) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const ExtensionRunPage(), arguments: item);
+        controller.toDetail(item);
       },
       child: AspectRatio(
         aspectRatio: 21 / 9,
