@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class Http {
@@ -14,7 +16,8 @@ class Http {
           .get(uri, headers: token)
           .timeout(const Duration(seconds: 60));
       if (response.statusCode == 200 && response.body.isNotEmpty) {
-        result.data = response.body;
+        String body = utf8.decode(response.bodyBytes);
+        result.data = body;
         result.success = true;
       } else {
         result.msg = "networkError";

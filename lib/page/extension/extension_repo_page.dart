@@ -49,23 +49,20 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        extension.name,
-                        style: theme.bodyStyle,
-                      ),
-                    ),
-                    Text(
-                      extension.version,
-                      style: theme.tipsStyle,
-                    ),
-                  ],
+                Text(
+                  extension.name,
+                  style: theme.bodyStyle,
+                ),
+                Text(
+                  "版本号:${extension.version}",
+                  style: theme.tipsStyle,
                 ),
                 Text(
                   "${extension.lang}，${extension.type}",
+                  style: theme.tipsStyle,
+                ),
+                Text(
+                  "少儿不宜:${extension.nsfw ?? ""}",
                   style: theme.tipsStyle,
                 ),
               ],

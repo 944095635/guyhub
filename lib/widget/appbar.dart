@@ -23,7 +23,7 @@ AppBar buildAppBar({
             icon: ImageHelper.getSvg(
               "back",
               color: Theme.of(Get.context!).appBarTheme.foregroundColor,
-              size: 20.sp,
+              size: 24.sp,
             ),
             onPressed: () {
               Navigator.of(Get.context!).maybePop();
