@@ -1,5 +1,4 @@
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_js/extensions/fetch.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -54,10 +53,10 @@ class ExtensionRunDetailPageController extends GetxController
 
   void play1(ExtensionListItem item) async {
     SmartDialog.showLoading();
-    ExtensionDetail detail = await ExtensionUtils.detail(_runtime!, item.url);
+    ExtensionDetail detail = await ExtensionUtils.detail(_runtime, item.url);
     debug(detail.title);
     Object? d = await ExtensionUtils.watch(
-        _runtime!, extension, detail.episodes!.first.urls.first.url);
+        _runtime, extension, detail.episodes!.first.urls.first.url);
     SmartDialog.dismiss();
     switch (extension.type) {
       case ExtensionType.bangumi:

@@ -1,12 +1,8 @@
-import 'package:flutter_js/extensions/fetch.dart';
 import 'package:flutter_js/flutter_js.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_run_detail_page.dart';
 import 'package:guyhub/util/extension.dart';
-import 'package:android_intent_plus/android_intent.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class ExtensionRunPageController extends GetxController with StateMixin<List> {
   /// 当前页

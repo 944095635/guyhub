@@ -27,7 +27,7 @@ class ExtensionRunDetailPage extends GetView<ExtensionRunDetailPageController> {
                     child: Text(url.name),
                   )
                 },
-                Divider()
+                const Divider()
               }
             ],
           )),
