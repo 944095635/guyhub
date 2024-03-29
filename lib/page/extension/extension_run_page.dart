@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
-import 'package:guyhub/page/extension/extension_run_detail_page.dart';
 import 'package:guyhub/page/extension/extension_run_page_controller.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/widget/appbar.dart';

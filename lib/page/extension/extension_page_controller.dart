@@ -12,7 +12,7 @@ class ExtensionPageController extends GetxController with StateMixin<List> {
 
   void loadData() async {
     //读取已经安装的插件
-    var data = ExtensionUtils.getExtensions();
+    var data = await ExtensionUtils.getExtensions();
     value!.clear();
     for (var item in data) {
       value!.add(item);

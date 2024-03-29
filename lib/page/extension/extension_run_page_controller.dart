@@ -1,12 +1,7 @@
-import 'package:flutter_js/extensions/fetch.dart';
-import 'package:flutter_js/flutter_js.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_run_detail_page.dart';
-import 'package:guyhub/util/extension.dart';
-import 'package:android_intent_plus/android_intent.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:guyhub/service/extension_service.dart';
 
 class ExtensionRunPageController extends GetxController with StateMixin<List> {
   /// 当前页
@@ -14,9 +9,6 @@ class ExtensionRunPageController extends GetxController with StateMixin<List> {
 
   /// 当前扩展
   late Extension extension;
-
-  /// 运行服务
-  JavascriptRuntime? _runtime;
 
   @override
   void onInit() {
@@ -27,42 +19,31 @@ class ExtensionRunPageController extends GetxController with StateMixin<List> {
   }
 
   void init() async {
-    // 初始化runtime
-    _runtime = getJavascriptRuntime();
+    // 初始化服务
+    await ExtensionService.run(extension);
+    loadData();
+  }
 
-    // 加载脚本&注册回调
-    await ExtensionUtils.registerExtension(
-      runtime: _runtime!,
-      extension: extension,
-    );
-
+  Future loadData() async {
     value!.clear();
-
-    /// 加载首页数据
-    List<ExtensionListItem> list = await ExtensionUtils.latest(_runtime!);
+    // 加载首页数据
+    List<ExtensionListItem> list = await ExtensionService.loadData(pageIndex);
     value!.addAll(list);
     change(value, status: RxStatus.success());
   }
 
   @override
   void onClose() {
-    _runtime?.dispose();
+    ExtensionService.stop();
   }
 
   Future loadMore() async {
     pageIndex++;
-
-    /// 加载首页数据
-    List<ExtensionListItem> list =
-        await ExtensionUtils.latest(_runtime!, pageIndex: pageIndex);
-    value!.addAll(list);
-    change(value, status: RxStatus.success());
+    await loadData();
   }
 
+  /// 查看详情
   void toDetail(ExtensionListItem item) {
-    Get.to(
-      () => const ExtensionRunDetailPage(),
-      arguments: [_runtime, item, extension],
-    );
+    Get.to(() => const ExtensionRunDetailPage(), arguments: item);
   }
 }
