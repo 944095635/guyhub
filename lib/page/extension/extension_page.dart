@@ -69,7 +69,12 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             ),
           ),
         ),
-        onEmpty: const Text("你还没有安装任何插件"),
+        onEmpty: Center(
+          child: Text(
+            "未安装任何插件",
+            style: TextStyle(color: MyTheme.get(context).bodyColor),
+          ),
+        ),
       ),
     );
   }
@@ -134,9 +139,10 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             children: [
               if (extension.icon != null) ...{
                 Transform.scale(
-                  scale: 3,
+                  scale: 2.4,
                   child: CachedNetworkImage(
                     imageUrl: extension.icon!,
+                    memCacheWidth: 80,
                   ),
                 )
               },
@@ -192,8 +198,9 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             borderRadius: BorderRadius.circular(5.r),
             child: CachedNetworkImage(
               imageUrl: image,
-              width: 50.w,
-              height: 50.w,
+              memCacheWidth: 80,
+              width: 40.w,
+              height: 40.w,
             ),
           )
         : Container(
