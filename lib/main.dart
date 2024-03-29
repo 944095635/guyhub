@@ -98,6 +98,17 @@ class MyApp extends StatelessWidget {
             systemNavigationBarColor: Colors.white,
           ),
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          backgroundColor: Colors.black,
+          //showSelectedLabels: false,
+          //showUnselectedLabels: false,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white38,
+          selectedLabelStyle: TextStyle(fontSize: 11.sp),
+          unselectedLabelStyle: TextStyle(fontSize: 11.sp),
+        ),
       ),
       home: const SplashPage(),
       builder: FlutterSmartDialog.init(

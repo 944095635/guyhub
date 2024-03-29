@@ -1,18 +1,12 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_page_controller.dart';
-import 'package:guyhub/page/extension/extension_run_page.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/util/image_helper.dart';
 import 'package:guyhub/widget/appbar.dart';
@@ -52,7 +46,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 4 / 5,
+                //childAspectRatio: 4 / 5,
               ),
             ),
           ),
@@ -66,84 +60,107 @@ class ExtensionPage extends GetView<ExtensionPageController> {
       margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        border: Border.all(color: const Color.fromARGB(19, 80, 80, 80)),
-        boxShadow: const [
+        border: Border.all(color: theme.borderColor),
+        boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(120, 220, 220, 220),
+            color: theme.shadowColor,
             blurRadius: 5,
+            blurStyle: BlurStyle.outer,
           )
         ],
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Stack(
-          fit: StackFit.passthrough,
-          children: [
-            CachedNetworkImage(
-              imageUrl: extension.icon!,
-              fit: BoxFit.fill,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          buildBackground(extension.icon),
+          Container(
+            decoration: BoxDecoration(
+              color: theme.aeroColor,
+              borderRadius: BorderRadius.circular(8),
             ),
-            BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
-              child: Container(
-                color: Colors.white54,
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(child: buildLogo(extension.icon)),
+                ),
+                Text(
+                  extension.name,
+                  style: theme.bodyStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: build18Logo(),
-                  ),
-                  Expanded(
-                    child: Center(child: buildLogo(extension.icon)),
-                  ),
-                  10.verticalSpace,
-                  Text(
-                    extension.name,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  4.verticalSpace,
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+          if (extension.isNsfw) ...{
+            //显示18禁图标
+            Positioned(
+              top: 6,
+              right: 6,
+              child: build18Logo(),
+            )
+          }
+        ],
       ),
     );
+  }
+
+  /// 背景图
+  Widget buildBackground(String? image) {
+    if (image != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: ImageFiltered(
+          imageFilter: ImageFilter.blur(
+            sigmaX: 30,
+            sigmaY: 30,
+          ),
+          child: Transform.scale(
+            scale: 1.4,
+            child: CachedNetworkImage(
+              imageUrl: image,
+            ),
+          ),
+        ),
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   Widget buildLogo(String? image) {
     return image != null
         ? ClipRRect(
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(5.r),
             child: CachedNetworkImage(
               imageUrl: image,
-              width: 60.w,
-              height: 60.w,
+              width: 50.w,
+              height: 50.w,
             ),
           )
         : Container(
-            width: 60.w,
-            height: 60.w,
+          alignment: Alignment.center,
+            width: 50.w,
+            height: 50.w,
             decoration: BoxDecoration(
               color: const Color(0xFFEDEDED),
-              borderRadius: BorderRadius.circular(10.r),
+              borderRadius: BorderRadius.circular(5.r),
+            ),
+            child: ImageHelper.getSvg(
+              "apps",
+              color: Colors.deepPurple,
+              size: 22.sp,
             ),
           );
   }
 
+  /// 18禁 图标
   Widget build18Logo() {
-    return Container(
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        color: Colors.pinkAccent,
-        border: Border.all(color: Colors.white),
-        borderRadius: BorderRadius.circular(3),
-      ),
+    return buildCard(
+      color: Colors.pinkAccent,
       child: const Text(
         "18+",
         style: TextStyle(
@@ -151,10 +168,17 @@ class ExtensionPage extends GetView<ExtensionPageController> {
           fontSize: 10,
         ),
       ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 2,
+      ),
     );
   }
 
-  Widget buildCard(Color color, Widget child, {EdgeInsets? padding}) {
+  Widget buildCard({
+    required Color color,
+    required Widget child,
+    EdgeInsets? padding,
+  }) {
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -163,20 +187,6 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         borderRadius: BorderRadius.circular(3),
       ),
       child: child,
-    );
-  }
-
-  Widget buildCartoon() {
-    return buildCard(
-      const Color(0xFFDEDEDE),
-      const Text(
-        "动画",
-        style: TextStyle(fontSize: 11),
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 2,
-      ),
     );
   }
 }
