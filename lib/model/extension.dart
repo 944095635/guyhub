@@ -59,6 +59,10 @@ class Extension {
 
   /// 少儿不宜
   String? nsfw;
+
+  /// 是否儿童不宜
+  bool get isNsfw => nsfw == "true";
+
   final String package;
   final String author;
   final String version;

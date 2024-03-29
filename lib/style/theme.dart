@@ -42,13 +42,18 @@ class MyTheme extends ThemeExtension<MyTheme> {
     required this.secondaryButtonStyle,
   });
 
-  /// 主题内容字体
+  /// ****************************************************************************************************
+  ///
+  /// 黑色主题：
+  ///   卡片 25252F
+
+  /// 内容标题
   final TextStyle? titleStyle;
 
-  /// 主题内容字体
+  /// 内容
   final TextStyle? bodyStyle;
 
-  /// 主题内容字体
+  /// 内容-提示信息
   final TextStyle? tipsStyle;
 
   /// 卡片颜色
@@ -62,6 +67,8 @@ class MyTheme extends ThemeExtension<MyTheme> {
 
   /// 次要的按钮
   final ButtonStyle secondaryButtonStyle;
+
+  /// ****************************************************************************************************
 
   /// 白色主题
   static final light = MyTheme(
@@ -111,7 +118,7 @@ class MyTheme extends ThemeExtension<MyTheme> {
       fontSize: 13.sp,
       color: const Color(0xFFBBBBBB),
     ),
-    cardColor: const Color(0xFF222222),
+    cardColor: const Color(0xFF25252F),
 
     /// 图标颜色
     iconColor: const Color(0xFF666666),

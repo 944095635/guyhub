@@ -33,7 +33,8 @@ class ExtensionRunPageController extends GetxController with StateMixin<List> {
   }
 
   @override
-  void onClose() {
+  void dispose() {
+    super.dispose();
     ExtensionService.stop();
   }
 

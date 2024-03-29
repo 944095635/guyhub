@@ -1,6 +1,13 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
@@ -25,10 +32,6 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         actions: [
           IconButton(
             onPressed: controller.addExtension,
-            icon: ImageHelper.getSvg("add"),
-          ),
-          IconButton(
-            onPressed: controller.addExtension,
             icon: ImageHelper.getSvg("app_store"),
           ),
           10.horizontalSpace,
@@ -39,12 +42,19 @@ class ExtensionPage extends GetView<ExtensionPageController> {
           onRefresh: () {
             controller.reload();
           },
-          child: ListView.builder(
-            itemCount: state!.length,
-            itemBuilder: (context, index) {
-              Extension extension = state[index];
-              return buildItem(theme, extension);
-            },
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GridView.builder(
+              itemCount: state!.length,
+              itemBuilder: (context, index) {
+                Extension extension = state[index];
+                return buildItem(theme, extension);
+              },
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 4 / 5,
+              ),
+            ),
           ),
         ),
       ),
@@ -53,44 +63,55 @@ class ExtensionPage extends GetView<ExtensionPageController> {
 
   Widget buildItem(MyTheme theme, Extension extension) {
     return Container(
+      margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: EdgeInsets.all(10.w),
-      margin: EdgeInsets.symmetric(
-        vertical: 4.h,
-        horizontal: 20.w,
-      ),
-      child: Row(
-        children: [
-          buildLogo(extension.icon),
-          20.horizontalSpace,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  extension.name,
-                  style: theme.bodyStyle,
-                ),
-                Text(
-                  "${extension.lang}，${extension.type}",
-                  style: theme.tipsStyle,
-                ),
-              ],
-            ),
-          ),
-          20.horizontalSpace,
-          TextButton(
-            onPressed: () {
-              Get.to(() => const ExtensionRunPage(), arguments: extension);
-            },
-            child: const Text(
-              "启动",
-            ),
-          ),
+        border: Border.all(color: const Color.fromARGB(19, 80, 80, 80)),
+        boxShadow: const [
+          BoxShadow(
+            color: const Color.fromARGB(120, 220, 220, 220),
+            blurRadius: 5,
+          )
         ],
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            CachedNetworkImage(
+              imageUrl: extension.icon!,
+              fit: BoxFit.fill,
+            ),
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
+              child: Container(
+                color: Colors.white54,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: build18Logo(),
+                  ),
+                  Expanded(
+                    child: Center(child: buildLogo(extension.icon)),
+                  ),
+                  10.verticalSpace,
+                  Text(
+                    extension.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  4.verticalSpace,
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -113,5 +134,49 @@ class ExtensionPage extends GetView<ExtensionPageController> {
               borderRadius: BorderRadius.circular(10.r),
             ),
           );
+  }
+
+  Widget build18Logo() {
+    return Container(
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: Colors.pinkAccent,
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: const Text(
+        "18+",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+        ),
+      ),
+    );
+  }
+
+  Widget buildCard(Color color, Widget child, {EdgeInsets? padding}) {
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        color: color,
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: child,
+    );
+  }
+
+  Widget buildCartoon() {
+    return buildCard(
+      const Color(0xFFDEDEDE),
+      const Text(
+        "动画",
+        style: TextStyle(fontSize: 11),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 6,
+        vertical: 2,
+      ),
+    );
   }
 }
