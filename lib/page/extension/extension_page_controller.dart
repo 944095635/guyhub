@@ -3,9 +3,12 @@ import 'package:guyhub/page/extension/extension_repo_page.dart';
 import 'package:guyhub/util/extension.dart';
 
 class ExtensionPageController extends GetxController with StateMixin<List> {
+  late Rx<GridViewMode> mode;
+
   @override
   void onInit() {
     super.onInit();
+    mode = Rx(GridViewMode.three_);
     value = List.empty(growable: true);
     loadData();
   }
@@ -29,4 +32,39 @@ class ExtensionPageController extends GetxController with StateMixin<List> {
     await Get.to(() => const ExtensionRepoPage());
     loadData();
   }
+
+  /// 切换视图模式
+  void changeView() {
+    switch (mode.value) {
+      case GridViewMode.two:
+        mode.value = GridViewMode.two_;
+        break;
+      case GridViewMode.two_:
+        mode.value = GridViewMode.three;
+        break;
+      case GridViewMode.three:
+        mode.value = GridViewMode.three_;
+        break;
+      case GridViewMode.three_:
+        mode.value = GridViewMode.four;
+        break;
+      case GridViewMode.four:
+        mode.value = GridViewMode.two;
+        break;
+      default:
+    }
+  }
+}
+
+// 2 方
+// 2 长
+// 3 方
+// 3 长
+// 4 方
+enum GridViewMode {
+  two,
+  two_,
+  three,
+  three_,
+  four,
 }

@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
           //onSecondary: Colors.amber,
         ),
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFFAFAFA),
-        //scaffoldBackgroundColor: Colors.white,
+        //scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           elevation: 0,
           scrolledUnderElevation: 0,
@@ -72,6 +72,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        iconButtonTheme: const IconButtonThemeData(
+          style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+        ),
       ),
       darkTheme: ThemeData(
         extensions: [MyTheme.dark],
@@ -93,12 +96,15 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          //showSelectedLabels: false,
-          //showUnselectedLabels: false,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white38,
           selectedLabelStyle: TextStyle(fontSize: 11.sp),
           unselectedLabelStyle: TextStyle(fontSize: 11.sp),
+        ),
+        iconButtonTheme: const IconButtonThemeData(
+          style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
         ),
       ),
       home: const SplashPage(),

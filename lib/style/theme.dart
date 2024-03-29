@@ -116,8 +116,8 @@ class MyTheme extends ThemeExtension<MyTheme> {
     bodyColor: const Color(0xFF333333),
     cardColor: Colors.white,
     aeroColor: Colors.white70,
-    shadowColor: const Color.fromARGB(255, 245, 245, 245),
-    borderColor: const Color.fromARGB(20, 140, 140, 140),
+    shadowColor: const Color.fromARGB(255, 240, 240, 240),
+    borderColor: const Color.fromARGB(20, 125, 125, 125),
 
     /// 图标颜色
     iconColor: const Color(0xFF666666),

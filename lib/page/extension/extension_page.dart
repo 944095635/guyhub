@@ -29,6 +29,13 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             backgroundColor: MyTheme.get(context).aeroColor,
             actions: [
               IconButton(
+                onPressed: controller.changeView,
+                icon: ImageHelper.getSvg(
+                  "grid_view",
+                  color: MyTheme.get(context).bodyStyle.color,
+                ),
+              ),
+              IconButton(
                 onPressed: controller.addExtension,
                 icon: ImageHelper.getSvg(
                   "app_store",
@@ -46,19 +53,52 @@ class ExtensionPage extends GetView<ExtensionPageController> {
           onRefresh: () {
             controller.reload();
           },
-          child: GridView.builder(
-            itemCount: state!.length,
-            itemBuilder: (context, index) {
-              Extension extension = state[index];
-              return buildItem(context, extension);
-            },
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              //childAspectRatio: 4 / 5,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Obx(
+              () => GridView.builder(
+                itemCount: state!.length,
+                itemBuilder: (context, index) {
+                  Extension extension = state[index];
+                  return buildItem(context, extension);
+                },
+                gridDelegate: getDelegate(),
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  SliverGridDelegateWithFixedCrossAxisCount getDelegate() {
+    int column;
+    double? ratio;
+    switch (controller.mode.value) {
+      case GridViewMode.two:
+        column = 2;
+        break;
+      case GridViewMode.two_:
+        column = 2;
+        ratio = 4 / 5;
+        break;
+      case GridViewMode.three:
+        column = 3;
+        break;
+      case GridViewMode.three_:
+        column = 3;
+        ratio = 4 / 5;
+        break;
+      case GridViewMode.four:
+        column = 4;
+        break;
+      default:
+        column = 3;
+    }
+
+    return SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: column,
+      childAspectRatio: ratio ?? 1,
     );
   }
 
@@ -99,10 +139,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
                 ),
                 Text(
                   extension.name,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: theme.bodyColor
-                  ),
+                  style: TextStyle(fontSize: 13.sp, color: theme.bodyColor),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
