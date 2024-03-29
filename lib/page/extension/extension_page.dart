@@ -59,7 +59,6 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Obx(
               () => GridView.builder(
-                cacheExtent: 5000,
                 itemCount: state!.length,
                 itemBuilder: (context, index) {
                   Extension extension = state[index];
@@ -127,71 +126,64 @@ class ExtensionPage extends GetView<ExtensionPageController> {
           ],
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            buildBackground(extension.icon),
-            Container(
-              decoration: BoxDecoration(
-                color: theme.aeroColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: buildLogo(extension.icon),
-                    ),
+        child: ClipRRect(
+          clipBehavior: Clip.hardEdge,
+          borderRadius: BorderRadius.circular(8),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (extension.icon != null) ...{
+                Transform.scale(
+                  scale: 3,
+                  child: CachedNetworkImage(
+                    imageUrl: extension.icon!,
                   ),
-                  Text(
-                    extension.name,
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: theme.bodyColor,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                )
+              },
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 50,
+                  sigmaY: 50,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.aeroColor,
                   ),
-                ],
+                ),
               ),
-            ),
-            if (extension.isNsfw) ...{
-              //显示18禁图标
-              Positioned(
-                top: 6,
-                right: 6,
-                child: build18Logo(),
-              )
-            }
-          ],
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: buildLogo(extension.icon),
+                      ),
+                    ),
+                    Text(
+                      extension.name,
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: theme.bodyColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              if (extension.isNsfw) ...{
+                //显示18禁图标
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: build18Logo(),
+                )
+              }
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  /// 背景图
-  Widget buildBackground(String? image) {
-    if (image != null) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: ImageFiltered(
-          imageFilter: ImageFilter.blur(
-            sigmaX: 50,
-            sigmaY: 50,
-          ),
-          child: Transform.scale(
-            scale: 3,
-            child: CachedNetworkImage(
-              imageUrl: image,
-            ),
-          ),
-        ),
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 
   Widget buildLogo(String? image) {
@@ -231,9 +223,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
           fontSize: 10,
         ),
       ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 2,
-      ),
+      padding: const EdgeInsets.all(2),
     );
   }
 
