@@ -165,11 +165,11 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         borderRadius: BorderRadius.circular(8),
         child: ImageFiltered(
           imageFilter: ImageFilter.blur(
-            sigmaX: 30,
-            sigmaY: 30,
+            sigmaX: 50,
+            sigmaY: 50,
           ),
           child: Transform.scale(
-            scale: 1.4,
+            scale: 3,
             child: CachedNetworkImage(
               imageUrl: image,
             ),
