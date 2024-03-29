@@ -51,7 +51,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
       body: controller.obx(
         (state) => EasyRefresh(
           onRefresh: () {
-            controller.reload();
+            controller.onRefresh();
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -104,56 +104,65 @@ class ExtensionPage extends GetView<ExtensionPageController> {
 
   Widget buildItem(BuildContext context, Extension extension) {
     MyTheme theme = Theme.of(context).extension<MyTheme>()!;
-    return Container(
-      margin: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        border: Border.all(color: theme.borderColor),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor,
-            blurRadius: 5,
-            blurStyle: BlurStyle.outer,
-          )
-        ],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          buildBackground(extension.icon),
-          Container(
-            decoration: BoxDecoration(
-              color: theme.aeroColor,
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: buildLogo(extension.icon),
-                  ),
-                ),
-                Text(
-                  extension.name,
-                  style: TextStyle(fontSize: 13.sp, color: theme.bodyColor),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          if (extension.isNsfw) ...{
-            //显示18禁图标
-            Positioned(
-              top: 6,
-              right: 6,
-              child: build18Logo(),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        controller.openExtension(extension);
+      },
+      child: Container(
+        margin: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: theme.cardColor,
+          border: Border.all(color: theme.borderColor),
+          boxShadow: [
+            BoxShadow(
+              color: theme.shadowColor,
+              blurRadius: 5,
+              blurStyle: BlurStyle.outer,
             )
-          }
-        ],
+          ],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            buildBackground(extension.icon),
+            Container(
+              decoration: BoxDecoration(
+                color: theme.aeroColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: buildLogo(extension.icon),
+                    ),
+                  ),
+                  Text(
+                    extension.name,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: theme.bodyColor,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            if (extension.isNsfw) ...{
+              //显示18禁图标
+              Positioned(
+                top: 6,
+                right: 6,
+                child: build18Logo(),
+              )
+            }
+          ],
+        ),
       ),
     );
   }

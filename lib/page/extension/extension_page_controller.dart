@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_repo_page.dart';
+import 'package:guyhub/page/extension/extension_run_page.dart';
 import 'package:guyhub/util/extension.dart';
 
 class ExtensionPageController extends GetxController with StateMixin<List> {
@@ -24,13 +26,19 @@ class ExtensionPageController extends GetxController with StateMixin<List> {
         status: value!.isNotEmpty ? RxStatus.success() : RxStatus.empty());
   }
 
-  void reload() {
+  /// 下拉刷新
+  void onRefresh() {
     loadData();
   }
 
   void addExtension() async {
     await Get.to(() => const ExtensionRepoPage());
     loadData();
+  }
+
+  /// 运行插件
+  void openExtension(Extension extension) async {
+    await Get.to(() => const ExtensionRunPage(), arguments: extension);
   }
 
   /// 切换视图模式

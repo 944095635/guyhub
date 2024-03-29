@@ -54,10 +54,11 @@ class Extension {
     required this.name,
     this.icon,
     this.url,
+    this.nsfw,
     this.description,
   });
 
-  /// 少儿不宜
+  /// 少儿不宜 "nsfw" -> "false"
   String? nsfw;
 
   /// 是否儿童不宜

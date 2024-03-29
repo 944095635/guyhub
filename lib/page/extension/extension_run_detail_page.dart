@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
@@ -16,7 +17,8 @@ class ExtensionRunDetailPage extends GetView<ExtensionRunDetailPageController> {
       body: controller.obx(
         (state) => ListView(
           children: [
-            Text(state!.toJson().toString()),
+            CachedNetworkImage(imageUrl: state!.cover!),
+            Text(state.toJson().toString()),
             const Text("线路:"),
             for (var item in state.episodes!) ...{
               Text(item.title),

@@ -17,10 +17,12 @@ Extension _$ExtensionFromJson(Map<String, dynamic> json) => Extension(
       name: json['name'] as String,
       icon: json['icon'] as String?,
       url: json['url'] as String?,
+      nsfw: json['nsfw'] as String?,
       description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$ExtensionToJson(Extension instance) => <String, dynamic>{
+      'nsfw': instance.nsfw,
       'package': instance.package,
       'author': instance.author,
       'version': instance.version,
