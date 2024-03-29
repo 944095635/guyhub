@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:guyhub/page/extension/extension_page.dart';
 import 'package:guyhub/page/frame/frame_page_controller.dart';
 import 'package:guyhub/page/home/home_page.dart';
+import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/util/image_helper.dart';
 import 'package:guyhub/widget/common.dart';
 
@@ -13,6 +14,7 @@ class FramePage extends GetView<FramePageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(FramePageController());
+    MyTheme theme = Theme.of(context).extension<MyTheme>()!;
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       extendBodyBehindAppBar: true,
@@ -28,6 +30,7 @@ class FramePage extends GetView<FramePageController> {
         ),
       ),
       bottomNavigationBar: getFilterWidget(
+        color: theme.aeroColor,
         child: Obx(
           () => BottomNavigationBar(
             onTap: (index) {

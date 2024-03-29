@@ -26,7 +26,10 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         actions: [
           IconButton(
             onPressed: controller.addExtension,
-            icon: ImageHelper.getSvg("app_store"),
+            icon: ImageHelper.getSvg(
+              "app_store",
+              color: theme.bodyStyle!.color,
+            ),
           ),
           10.horizontalSpace,
         ],
@@ -85,7 +88,9 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             child: Column(
               children: [
                 Expanded(
-                  child: Center(child: buildLogo(extension.icon)),
+                  child: Center(
+                    child: buildLogo(extension.icon),
+                  ),
                 ),
                 Text(
                   extension.name,
@@ -142,7 +147,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             ),
           )
         : Container(
-          alignment: Alignment.center,
+            alignment: Alignment.center,
             width: 50.w,
             height: 50.w,
             decoration: BoxDecoration(

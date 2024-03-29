@@ -56,6 +56,7 @@ class MyTheme extends ThemeExtension<MyTheme> {
   /// ****************************************************************************************************
   /// 白色主题
   /// 文本内容 13px ，颜色 #333
+  final TextStyle? bodyStyle;
   /// 文本提示内容 12px ,颜色 #666
   ///
   /// 卡片颜色
@@ -69,13 +70,10 @@ class MyTheme extends ThemeExtension<MyTheme> {
 
   ///
   /// 黑色主题：
-  ///   卡片 25252F
+  /// 卡片 25252F
 
   /// 内容标题
   final TextStyle? titleStyle;
-
-  /// 内容
-  final TextStyle? bodyStyle;
 
   /// 内容-提示信息
   final TextStyle? tipsStyle;
@@ -97,14 +95,8 @@ class MyTheme extends ThemeExtension<MyTheme> {
       fontSize: 18.sp,
       color: const Color(0xFF333333),
     ),
-    bodyStyle: TextStyle(
-      fontSize: 13.sp,
-      color: const Color(0xFF333333),
-    ),
-    tipsStyle: TextStyle(
-      fontSize: 13.sp,
-      color: const Color(0xFF666666),
-    ),
+    bodyStyle: TextStyle(fontSize: 13.sp, color: const Color(0xFF333333)),
+    tipsStyle: TextStyle(fontSize: 13.sp, color: const Color(0xFF666666)),
 
     /// 卡片的背景色
     cardColor: Colors.white,
@@ -136,14 +128,13 @@ class MyTheme extends ThemeExtension<MyTheme> {
       fontSize: 18.sp,
       color: const Color(0xFFEEEEEE),
     ),
-    bodyStyle: TextStyle(
-      fontSize: 16.sp,
-      color: const Color(0xFFEEEEEE),
-    ),
+    bodyStyle: TextStyle(fontSize: 13.sp, color: const Color(0xFFDDDDDD)),
     tipsStyle: TextStyle(
       fontSize: 13.sp,
       color: const Color(0xFFBBBBBB),
     ),
+
+    /// 颜色
     cardColor: const Color(0xFF25252F),
     aeroColor: Colors.black45,
     shadowColor: Colors.black,

@@ -66,13 +66,14 @@ class MyApp extends StatelessWidget {
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
           elevation: 0,
-          backgroundColor: glassColor,
-          //showSelectedLabels: false,
-          //showUnselectedLabels: false,
-          selectedItemColor: Colors.deepPurple,
+          //backgroundColor: glassColor,
+          backgroundColor: Colors.transparent,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: Colors.black,
           unselectedItemColor: Colors.black26,
-          selectedLabelStyle: TextStyle(fontSize: 11.sp),
-          unselectedLabelStyle: TextStyle(fontSize: 11.sp),
+          selectedLabelStyle: TextStyle(fontSize: 13.sp),
+          unselectedLabelStyle: TextStyle(fontSize: 13.sp),
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
@@ -101,7 +102,7 @@ class MyApp extends StatelessWidget {
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
           elevation: 0,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
           //showSelectedLabels: false,
           //showUnselectedLabels: false,
           selectedItemColor: Colors.white,
