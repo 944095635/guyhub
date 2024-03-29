@@ -53,7 +53,7 @@ class ExtensionRepoPageController extends GetxController with StateMixin<List> {
       bool status = await ExtensionUtils.install(url);
       if (status) {
         extension.install.value = true;
-        SmartDialog.showToast("安装成功");
+        SmartDialog.showToast("安装成功", debounce: true);
       } else {
         SmartDialog.showNotify(msg: "安装失败", notifyType: NotifyType.error);
       }
@@ -68,5 +68,15 @@ class ExtensionRepoPageController extends GetxController with StateMixin<List> {
       extension.download.value = false;
       SmartDialog.showToast("卸载成功");
     }
+  }
+
+  installAll() async {
+    SmartDialog.showLoading(msg: "安装中...");
+    for (Extension extension in value!) {
+      final url = "$host/repo/${extension.package}.js";
+      await ExtensionUtils.install(url);
+    }
+    SmartDialog.dismiss();
+    SmartDialog.showToast("全部安装成功");
   }
 }

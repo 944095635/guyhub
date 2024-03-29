@@ -24,26 +24,28 @@ class ExtensionPage extends GetView<ExtensionPageController> {
       appBar: PreferredSize(
         preferredSize: const Size(0, kToolbarHeight),
         child: getFilterWidget(
-          child: buildAppBarText(
-            "插件列表",
-            backgroundColor: MyTheme.get(context).aeroColor,
-            actions: [
-              IconButton(
-                onPressed: controller.changeView,
-                icon: ImageHelper.getSvg(
-                  "grid_view",
-                  color: MyTheme.get(context).bodyStyle.color,
+          child: Obx(
+            () => buildAppBarText(
+              "插件列表 [${controller.count.value}]",
+              backgroundColor: MyTheme.get(context).aeroColor,
+              actions: [
+                IconButton(
+                  onPressed: controller.changeView,
+                  icon: ImageHelper.getSvg(
+                    "grid_view",
+                    color: MyTheme.get(context).bodyStyle.color,
+                  ),
                 ),
-              ),
-              IconButton(
-                onPressed: controller.addExtension,
-                icon: ImageHelper.getSvg(
-                  "app_store",
-                  color: MyTheme.get(context).bodyStyle.color,
+                IconButton(
+                  onPressed: controller.addExtension,
+                  icon: ImageHelper.getSvg(
+                    "app_store",
+                    color: MyTheme.get(context).bodyStyle.color,
+                  ),
                 ),
-              ),
-              10.horizontalSpace,
-            ],
+                10.horizontalSpace,
+              ],
+            ),
           ),
         ),
       ),
@@ -57,6 +59,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Obx(
               () => GridView.builder(
+                cacheExtent: 5000,
                 itemCount: state!.length,
                 itemBuilder: (context, index) {
                   Extension extension = state[index];
@@ -67,6 +70,7 @@ class ExtensionPage extends GetView<ExtensionPageController> {
             ),
           ),
         ),
+        onEmpty: const Text("你还没有安装任何插件"),
       ),
     );
   }

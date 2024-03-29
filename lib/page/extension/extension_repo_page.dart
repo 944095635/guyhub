@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/page/extension/extension_repo_page_controller.dart';
 import 'package:guyhub/style/theme.dart';
+import 'package:guyhub/util/image_helper.dart';
 import 'package:guyhub/widget/appbar.dart';
 
 /// 官方插件
@@ -16,7 +17,19 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
     Get.put(ExtensionRepoPageController());
     return Scaffold(
       //Install Extension
-      appBar: buildAppBarText("安装插件"),
+      appBar: buildAppBarText(
+        "安装插件",
+        actions: [
+          IconButton(
+            onPressed: controller.installAll,
+            icon: ImageHelper.getSvg(
+              "app_store",
+              color: MyTheme.get(context).bodyStyle.color,
+            ),
+          ),
+          10.horizontalSpace,
+        ],
+      ),
       body: controller.obx(
         (state) => ListView.builder(
           padding: EdgeInsets.all(20.w),

@@ -7,9 +7,13 @@ import 'package:guyhub/util/extension.dart';
 class ExtensionPageController extends GetxController with StateMixin<List> {
   late Rx<GridViewMode> mode;
 
+  /// 插件数量
+  late RxInt count;
+
   @override
   void onInit() {
     super.onInit();
+    count = 0.obs;
     mode = Rx(GridViewMode.three_);
     value = List.empty(growable: true);
     loadData();
@@ -22,6 +26,7 @@ class ExtensionPageController extends GetxController with StateMixin<List> {
     for (var item in data) {
       value!.add(item);
     }
+    count.value = value!.length;
     change(value,
         status: value!.isNotEmpty ? RxStatus.success() : RxStatus.empty());
   }
