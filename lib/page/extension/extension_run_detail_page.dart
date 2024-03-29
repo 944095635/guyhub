@@ -13,24 +13,26 @@ class ExtensionRunDetailPage extends GetView<ExtensionRunDetailPageController> {
     Get.put(ExtensionRunDetailPageController());
     return Scaffold(
       appBar: buildAppBarText(controller.item.title),
-      body: controller.obx((state) => ListView(
-            children: [
-              Text(state!.toJson().toString()),
-              const Text("线路:"),
-              for (var item in state.episodes!) ...{
-                Text(item.title),
-                for (ExtensionEpisode url in item.urls) ...{
-                  FilledButton(
-                    onPressed: () {
-                      controller.play(url);
-                    },
-                    child: Text(url.name),
-                  )
-                },
-                Divider()
-              }
-            ],
-          )),
+      body: controller.obx(
+        (state) => ListView(
+          children: [
+            Text(state!.toJson().toString()),
+            const Text("线路:"),
+            for (var item in state.episodes!) ...{
+              Text(item.title),
+              for (ExtensionEpisode url in item.urls) ...{
+                FilledButton(
+                  onPressed: () {
+                    controller.play(url);
+                  },
+                  child: Text(url.name),
+                )
+              },
+              const Divider()
+            }
+          ],
+        ),
+      ),
     );
   }
 }

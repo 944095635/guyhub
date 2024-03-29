@@ -208,99 +208,101 @@ class ExtensionService {
       });
     ''');
       await _runtime!.handlePromise(jsResult);
-    }
 
-    _runtime!.onMessage('request', (dynamic args) async {
-      //String _cuurentRequestUrl = args[0];
-      final headers = args[1]['headers'] ?? {};
-      if (headers['User-Agent'] == null) {
-        headers['User-Agent'] = "";
-      }
+      /// 注册一些回调事件
+      // 请求
+      _runtime!.onMessage('request', (dynamic args) async {
+        //String _cuurentRequestUrl = args[0];
+        final headers = args[1]['headers'] ?? {};
+        if (headers['User-Agent'] == null) {
+          headers['User-Agent'] = "";
+        }
 
-      final url = args[0];
-      final method = args[1]['method'] ?? 'get';
-      final requestBody = args[1]['data'];
-      //queryParameters: args[1]['queryParameters'] ?? {},
-      var result = await Http.get(url);
-      return result.data;
-    });
-
-    // css 选择器
-    _runtime!.onMessage('querySelector', (dynamic args) {
-      final content = args[0];
-      final selector = args[1];
-      final fun = args[2];
-
-      final doc = parse(content).querySelector(selector);
-
-      switch (fun) {
-        case 'text':
-          return doc?.text ?? '';
-        case 'outerHTML':
-          return doc?.outerHtml ?? '';
-        case 'innerHTML':
-          return doc?.innerHtml ?? '';
-        default:
-          return doc?.outerHtml ?? '';
-      }
-    });
-
-    // xpath 选择器
-    _runtime!.onMessage('queryXPath', (args) {
-      final content = args[0];
-      final selector = args[1];
-      final fun = args[2];
-
-      final xpath = HtmlXPath.html(content);
-      final result = xpath.queryXPath(selector);
-
-      switch (fun) {
-        case 'attr':
-          return result.attr ?? '';
-        case 'attrs':
-          return jsonEncode(result.attrs);
-        case 'text':
-          return result.node?.text;
-        case 'allHTML':
-          return result.nodes
-              .map((e) => (e.node as Element).outerHtml)
-              .toList();
-        case 'outerHTML':
-          return (result.node?.node as Element).outerHtml;
-        default:
-          return result.node?.text;
-      }
-    });
-
-    _runtime!.onMessage('removeSelector', (dynamic args) {
-      final content = args[0];
-      final selector = args[1];
-      final doc = parse(content);
-      doc.querySelectorAll(selector).forEach((element) {
-        element.remove();
+        final url = args[0];
+        //final method = args[1]['method'] ?? 'get';
+        //final requestBody = args[1]['data'];
+        //queryParameters: args[1]['queryParameters'] ?? {},
+        var result = await Http.get(url);
+        return result.data;
       });
-      return doc.outerHtml;
-    });
 
-    // 获取标签属性
-    _runtime!.onMessage('getAttributeText', (args) {
-      final content = args[0];
-      final selector = args[1];
-      final attr = args[2];
-      final doc = parse(content).querySelector(selector);
-      return doc?.attributes[attr];
-    });
+      // css 选择器
+      _runtime!.onMessage('querySelector', (dynamic args) {
+        final content = args[0];
+        final selector = args[1];
+        final fun = args[2];
 
-    _runtime!.onMessage('querySelectorAll', (dynamic args) async {
-      final content = args[0];
-      final selector = args[1];
-      final doc = parse(content).querySelectorAll(selector);
-      final elements = jsonEncode(doc.map((e) {
-        return e.outerHtml;
-      }).toList());
+        final doc = parse(content).querySelector(selector);
 
-      return elements;
-    });
+        switch (fun) {
+          case 'text':
+            return doc?.text ?? '';
+          case 'outerHTML':
+            return doc?.outerHtml ?? '';
+          case 'innerHTML':
+            return doc?.innerHtml ?? '';
+          default:
+            return doc?.outerHtml ?? '';
+        }
+      });
+
+      // xpath 选择器
+      _runtime!.onMessage('queryXPath', (args) {
+        final content = args[0];
+        final selector = args[1];
+        final fun = args[2];
+
+        final xpath = HtmlXPath.html(content);
+        final result = xpath.queryXPath(selector);
+
+        switch (fun) {
+          case 'attr':
+            return result.attr ?? '';
+          case 'attrs':
+            return jsonEncode(result.attrs);
+          case 'text':
+            return result.node?.text;
+          case 'allHTML':
+            return result.nodes
+                .map((e) => (e.node as Element).outerHtml)
+                .toList();
+          case 'outerHTML':
+            return (result.node?.node as Element).outerHtml;
+          default:
+            return result.node?.text;
+        }
+      });
+
+      _runtime!.onMessage('removeSelector', (dynamic args) {
+        final content = args[0];
+        final selector = args[1];
+        final doc = parse(content);
+        doc.querySelectorAll(selector).forEach((element) {
+          element.remove();
+        });
+        return doc.outerHtml;
+      });
+
+      // 获取标签属性
+      _runtime!.onMessage('getAttributeText', (args) {
+        final content = args[0];
+        final selector = args[1];
+        final attr = args[2];
+        final doc = parse(content).querySelector(selector);
+        return doc?.attributes[attr];
+      });
+
+      _runtime!.onMessage('querySelectorAll', (dynamic args) async {
+        final content = args[0];
+        final selector = args[1];
+        final doc = parse(content).querySelectorAll(selector);
+        final elements = jsonEncode(doc.map((e) {
+          return e.outerHtml;
+        }).toList());
+
+        return elements;
+      });
+    }
   }
 
   /// 停止一个脚本
@@ -329,7 +331,7 @@ class ExtensionService {
   static Future<ExtensionDetail> loadDetail(ExtensionListItem ext) async {
     final jsResult = await _runtime!.handlePromise(
       await _runtime!
-          .evaluateAsync('stringify(()=>extension.detail("${ext.url}}"))'),
+          .evaluateAsync('stringify(()=>extension.detail("${ext.url}"))'),
     );
     final result = ExtensionDetail.fromJson(jsonDecode(jsResult.stringResult));
     //result.headers ??= await _defaultHeaders;
