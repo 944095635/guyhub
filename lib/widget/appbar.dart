@@ -5,17 +5,21 @@ import 'package:guyhub/util/image_helper.dart';
 
 AppBar buildAppBarText(
   String txt, {
+  bool aero = false,
   List<Widget>? actions,
+  Color? backgroundColor,
 }) {
   return buildAppBar(
     title: Text(txt),
     actions: actions,
+    backgroundColor: backgroundColor,
   );
 }
 
 AppBar buildAppBar({
   Widget? title,
   List<Widget>? actions,
+  Color? backgroundColor,
 }) {
   return AppBar(
     leading: Navigator.canPop(Get.context!)
@@ -33,5 +37,6 @@ AppBar buildAppBar({
     titleSpacing: Navigator.canPop(Get.context!) ? 0 : null,
     title: title,
     actions: actions,
+    backgroundColor: backgroundColor,
   );
 }

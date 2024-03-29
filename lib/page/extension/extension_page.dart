@@ -10,6 +10,7 @@ import 'package:guyhub/page/extension/extension_page_controller.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/util/image_helper.dart';
 import 'package:guyhub/widget/appbar.dart';
+import 'package:guyhub/widget/common.dart';
 
 /// 扩展插件页面
 class ExtensionPage extends GetView<ExtensionPageController> {
@@ -18,39 +19,42 @@ class ExtensionPage extends GetView<ExtensionPageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(ExtensionPageController());
-    MyTheme theme = Theme.of(context).extension<MyTheme>()!;
     return Scaffold(
       //Extensions
-      appBar: buildAppBarText(
-        "插件列表",
-        actions: [
-          IconButton(
-            onPressed: controller.addExtension,
-            icon: ImageHelper.getSvg(
-              "app_store",
-              color: theme.bodyStyle!.color,
-            ),
+      appBar: PreferredSize(
+        preferredSize: const Size(0, kToolbarHeight),
+        child: getFilterWidget(
+          child: buildAppBarText(
+            "插件列表",
+            backgroundColor: MyTheme.get(context).aeroColor,
+            actions: [
+              IconButton(
+                onPressed: controller.addExtension,
+                icon: ImageHelper.getSvg(
+                  "app_store",
+                  color: MyTheme.get(context).bodyStyle.color,
+                ),
+              ),
+              10.horizontalSpace,
+            ],
           ),
-          10.horizontalSpace,
-        ],
+        ),
       ),
+      extendBodyBehindAppBar: true,
       body: controller.obx(
         (state) => EasyRefresh(
           onRefresh: () {
             controller.reload();
           },
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: GridView.builder(
-              itemCount: state!.length,
-              itemBuilder: (context, index) {
-                Extension extension = state[index];
-                return buildItem(theme, extension);
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                //childAspectRatio: 4 / 5,
-              ),
+          child: GridView.builder(
+            itemCount: state!.length,
+            itemBuilder: (context, index) {
+              Extension extension = state[index];
+              return buildItem(context, extension);
+            },
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              //childAspectRatio: 4 / 5,
             ),
           ),
         ),
@@ -58,7 +62,8 @@ class ExtensionPage extends GetView<ExtensionPageController> {
     );
   }
 
-  Widget buildItem(MyTheme theme, Extension extension) {
+  Widget buildItem(BuildContext context, Extension extension) {
+    MyTheme theme = Theme.of(context).extension<MyTheme>()!;
     return Container(
       margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -94,7 +99,10 @@ class ExtensionPage extends GetView<ExtensionPageController> {
                 ),
                 Text(
                   extension.name,
-                  style: theme.bodyStyle,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: theme.bodyColor
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

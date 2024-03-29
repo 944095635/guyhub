@@ -14,7 +14,6 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(ExtensionRepoPageController());
-    MyTheme theme = Theme.of(context).extension<MyTheme>()!;
     return Scaffold(
       //Install Extension
       appBar: buildAppBarText("安装插件"),
@@ -24,14 +23,15 @@ class ExtensionRepoPage extends GetView<ExtensionRepoPageController> {
           itemCount: state!.length,
           itemBuilder: (context, index) {
             Extension extension = state[index];
-            return buildItem(theme, extension);
+            return buildItem(context, extension);
           },
         ),
       ),
     );
   }
 
-  Widget buildItem(MyTheme theme, Extension extension) {
+  Widget buildItem(BuildContext context, Extension extension) {
+    MyTheme theme = MyTheme.get(context);
     return Container(
       decoration: BoxDecoration(
         color: theme.cardColor,

@@ -7,7 +7,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/splash/splash_page.dart';
 import 'package:guyhub/style/theme.dart';
-import 'package:guyhub/widget/common.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Guy Hub',
       defaultTransition: Transition.rightToLeft,
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
       theme: ThemeData(
         extensions: [MyTheme.light],
         colorScheme: ColorScheme.fromSeed(
@@ -52,16 +52,6 @@ class MyApp extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark, //状态栏黑色图标
             systemNavigationBarColor: Colors.white,
           ),
-        ),
-        textTheme: TextTheme(
-          //Appbar
-          titleLarge: TextStyle(fontSize: 18.sp),
-
-          //titleMedium: TextStyle(fontSize: 33),
-          //bodyLarge:  TextStyle(fontSize: 23),
-          //bodyMedium:  TextStyle(fontSize: 23),
-          //displayLarge:   TextStyle(fontSize: 23),
-          //displayMedium:  TextStyle(fontSize: 23),
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
@@ -96,7 +86,7 @@ class MyApp extends StatelessWidget {
             statusBarColor: Colors.transparent,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light, //状态栏黑色图标
-            systemNavigationBarColor: Colors.white,
+            systemNavigationBarColor: Colors.black,
           ),
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(

@@ -21,7 +21,7 @@ Widget getFilterWidget({
         sigmaY: sigmaY,
       ),
       child: Container(
-        color: color ?? glassColor,
+        color: color,
         padding: padding,
         child: child,
       ),

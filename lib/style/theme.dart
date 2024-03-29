@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyTheme extends ThemeExtension<MyTheme> {
+  /// 获取当前系统的主题
+  static MyTheme get(BuildContext context) {
+    return Theme.of(context).extension<MyTheme>()!;
+  }
+
   @override
   ThemeExtension<MyTheme> copyWith() {
     return MyTheme(
       titleStyle: titleStyle,
       bodyStyle: bodyStyle,
       tipsStyle: tipsStyle,
-      cardColor: cardColor,
       iconColor: iconColor,
       iconButtonStyle: iconButtonStyle,
       secondaryButtonStyle: secondaryButtonStyle,
+
+      /// 颜色
+      bodyColor: bodyColor,
+      cardColor: cardColor,
       aeroColor: aeroColor,
       shadowColor: shadowColor,
       borderColor: borderColor,
@@ -28,13 +36,16 @@ class MyTheme extends ThemeExtension<MyTheme> {
       titleStyle: titleStyle,
       bodyStyle: bodyStyle,
       tipsStyle: tipsStyle,
-      cardColor: cardColor,
       iconColor: iconColor,
       iconButtonStyle: iconButtonStyle,
       secondaryButtonStyle: secondaryButtonStyle,
+
+      ///颜色
+      bodyColor: bodyColor,
       aeroColor: aeroColor,
-      shadowColor: shadowColor,
       borderColor: borderColor,
+      cardColor: cardColor,
+      shadowColor: shadowColor,
     );
   }
 
@@ -42,27 +53,30 @@ class MyTheme extends ThemeExtension<MyTheme> {
     required this.titleStyle,
     required this.bodyStyle,
     required this.tipsStyle,
-    required this.cardColor,
     required this.iconColor,
     required this.iconButtonStyle,
     required this.secondaryButtonStyle,
 
     /// 颜色
-    this.aeroColor,
+    required this.bodyColor,
+    required this.aeroColor,
     required this.borderColor,
+    required this.cardColor,
     required this.shadowColor,
   });
 
   /// ****************************************************************************************************
   /// 白色主题
   /// 文本内容 13px ，颜色 #333
-  final TextStyle? bodyStyle;
+  final TextStyle bodyStyle;
+  final Color bodyColor;
+
   /// 文本提示内容 12px ,颜色 #666
   ///
   /// 卡片颜色
-  final Color? iconColor;
+  final Color iconColor;
   // 半透明颜色 白色的白 70 ，黑色的 黑54
-  final Color? aeroColor;
+  final Color aeroColor;
   // 阴影颜色 很淡  Color.fromARGB(255, 245, 245, 245)  / Color.fromARGB(20, 245, 245, 245)
   final Color shadowColor;
   // 边框颜色 很淡  const Color.fromARGB(20, 140, 140, 140)  / const Color.fromARGB(20, 140, 140, 140)
@@ -73,13 +87,13 @@ class MyTheme extends ThemeExtension<MyTheme> {
   /// 卡片 25252F
 
   /// 内容标题
-  final TextStyle? titleStyle;
+  final TextStyle titleStyle;
 
   /// 内容-提示信息
-  final TextStyle? tipsStyle;
+  final TextStyle tipsStyle;
 
   /// 卡片颜色
-  final Color? cardColor;
+  final Color cardColor;
 
   /// 带背景色的图标按钮
   final ButtonStyle iconButtonStyle;
@@ -99,6 +113,7 @@ class MyTheme extends ThemeExtension<MyTheme> {
     tipsStyle: TextStyle(fontSize: 13.sp, color: const Color(0xFF666666)),
 
     /// 卡片的背景色
+    bodyColor: const Color(0xFF333333),
     cardColor: Colors.white,
     aeroColor: Colors.white70,
     shadowColor: const Color.fromARGB(255, 245, 245, 245),
@@ -129,12 +144,10 @@ class MyTheme extends ThemeExtension<MyTheme> {
       color: const Color(0xFFEEEEEE),
     ),
     bodyStyle: TextStyle(fontSize: 13.sp, color: const Color(0xFFDDDDDD)),
-    tipsStyle: TextStyle(
-      fontSize: 13.sp,
-      color: const Color(0xFFBBBBBB),
-    ),
+    tipsStyle: TextStyle(fontSize: 13.sp, color: const Color(0xFFBBBBBB)),
 
     /// 颜色
+    bodyColor: const Color(0xFFDDDDDD),
     cardColor: const Color(0xFF25252F),
     aeroColor: Colors.black45,
     shadowColor: Colors.black,
