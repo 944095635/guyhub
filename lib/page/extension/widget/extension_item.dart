@@ -38,7 +38,7 @@ class ExtensionItem extends StatelessWidget {
               blurStyle: BlurStyle.outer,
             )
           ],
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: ClipRRect(
           clipBehavior: Clip.hardEdge,
@@ -47,20 +47,24 @@ class ExtensionItem extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               if (extension.icon != null) ...{
-                CachedNetworkImage(
-                  imageUrl: extension.icon!,
-                  repeat: ImageRepeat.repeat,
-                  memCacheWidth: 80,
+                Transform.scale(
+                  scale: 2,
+                  child: CachedNetworkImage(
+                    imageUrl: extension.icon!,
+                    repeat: ImageRepeat.repeat,
+                    memCacheWidth: 80,
+                  ),
                 )
               },
+              Container(
+                color: theme.aeroColor,
+              ),
               BackdropFilter(
                 filter: ImageFilter.blur(
-                  sigmaX: 80,
-                  sigmaY: 80,
+                  sigmaX: 50,
+                  sigmaY: 50,
                 ),
-                child: Container(
-                  color: theme.aeroColor,
-                ),
+                child: const SizedBox(),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
