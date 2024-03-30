@@ -109,8 +109,6 @@ class ExtensionPage extends GetView<ExtensionPageController> {
 
     return SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: column,
-      mainAxisSpacing: 5,
-      crossAxisSpacing: 5,
       childAspectRatio: ratio ?? 1,
     );
   }

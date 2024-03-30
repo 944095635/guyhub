@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/style/theme.dart';
@@ -47,24 +48,23 @@ class ExtensionItem extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               if (extension.icon != null) ...{
-                Transform.scale(
-                  scale: 2,
-                  child: CachedNetworkImage(
-                    imageUrl: extension.icon!,
-                    repeat: ImageRepeat.repeat,
-                    memCacheWidth: 80,
+                ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaX: 50,
+                    sigmaY: 50,
                   ),
-                )
+                  child: Transform.scale(
+                    scale: 2,
+                    child: CachedNetworkImage(
+                      imageUrl: extension.icon!,
+                      repeat: ImageRepeat.repeat,
+                      memCacheWidth: 80,
+                    ),
+                  ),
+                ),
               },
               Container(
                 color: theme.aeroColor,
-              ),
-              BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 50,
-                  sigmaY: 50,
-                ),
-                child: const SizedBox(),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
