@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:guyhub/model/extension.dart';
 import 'package:guyhub/style/theme.dart';
 import 'package:guyhub/util/image_helper.dart';
+import 'package:image_pixels/image_pixels.dart';
 
 /// 单个扩展子项
 class ExtensionItem extends StatelessWidget {
@@ -48,24 +46,28 @@ class ExtensionItem extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               if (extension.icon != null) ...{
-                ImageFiltered(
-                  imageFilter: ImageFilter.blur(
-                    sigmaX: 50,
-                    sigmaY: 50,
-                  ),
-                  child: Transform.scale(
-                    scale: 2,
-                    child: CachedNetworkImage(
-                      imageUrl: extension.icon!,
-                      repeat: ImageRepeat.repeat,
-                      memCacheWidth: 80,
-                    ),
+                ImagePixels.container(
+                  imageProvider: CachedNetworkImageProvider(extension.icon!),
+                  colorAlignment: Alignment.center,
+                  child: Container(
+                    color: theme.aeroColor,
                   ),
                 ),
+                //ImageFiltered(
+                //  imageFilter: ImageFilter.blur(
+                //    sigmaX: 50,
+                //    sigmaY: 50,
+                //  ),
+                //  child: Transform.scale(
+                //    scale: 2,
+                //    child: CachedNetworkImage(
+                //      imageUrl: extension.icon!,
+                //      repeat: ImageRepeat.repeat,
+                //      memCacheWidth: 80,
+                //    ),
+                //  ),
+                //),
               },
-              Container(
-                color: theme.aeroColor,
-              ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -136,10 +138,10 @@ class ExtensionItem extends StatelessWidget {
         "18+",
         style: TextStyle(
           color: Colors.white,
-          fontSize: 10,
+          fontSize: 8,
         ),
       ),
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(1),
     );
   }
 
