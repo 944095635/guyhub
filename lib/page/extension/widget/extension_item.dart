@@ -47,7 +47,11 @@ class ExtensionItem extends StatelessWidget {
             children: [
               if (extension.icon != null) ...{
                 ImagePixels.container(
-                  imageProvider: CachedNetworkImageProvider(extension.icon!),
+                  imageProvider: CachedNetworkImageProvider(
+                    extension.icon!,
+                    maxWidth: 30,
+                    maxHeight: 30,
+                  ),
                   colorAlignment: Alignment.center,
                   child: Container(
                     color: theme.aeroColor,

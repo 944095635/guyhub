@@ -75,7 +75,9 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         onEmpty: Center(
           child: Text(
             "未安装任何插件",
-            style: TextStyle(color: MyTheme.get(context).bodyColor),
+            style: TextStyle(
+              color: MyTheme.get(context).bodyColor,
+            ),
           ),
         ),
       ),
