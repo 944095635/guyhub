@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Http {
@@ -7,18 +9,22 @@ class Http {
   static Future<ServiceResultData> get(
     String url, {
     //临时Token
-    Map<String, String>? token,
+    Map<String, String>? headers,
   }) async {
     ServiceResultData result = ServiceResultData();
     try {
       var uri = Uri.parse(url);
       var response = await http
-          .get(uri, headers: token)
+          .get(uri, headers: headers)
           .timeout(const Duration(seconds: 60));
-      if (response.statusCode == 200 && response.body.isNotEmpty) {
-        String body = utf8.decode(response.bodyBytes);
+          String body = utf8.decode(gzip.decode(response.bodyBytes));
+      if (response.body.isNotEmpty) {
+        
+        debugPrint("HTML:$body");
         result.data = body;
-        result.success = true;
+        if (response.statusCode == 200) {
+          result.success = true;
+        }
       } else {
         result.msg = "networkError";
       }

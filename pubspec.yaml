@@ -59,6 +59,7 @@ dependencies:
   # 网页解析相关的组件
   html: ^0.15.4
   flutter_js: ^0.8.0                   #执行JS
+  #webview_flutter: ^4.7.0
   xpath_selector_html_parser: ^3.0.1
   #---------------------------------------------------------------------
   url_launcher: ^6.2.6

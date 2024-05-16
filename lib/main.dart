@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         extensions: [MyTheme.light],
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
-          primary: Color(0xFF252525),
+          primary: const Color(0xFF252525),
           //primaryContainer: Colors.amber,
           //  onPrimary: Colors.red,
           // secondary: Colors.red,
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
             systemNavigationBarColor: Colors.white,
           ),
         ),
-        tabBarTheme: TabBarTheme(
+        tabBarTheme: const TabBarTheme(
           //dividerHeight: 0,
           dividerColor: Colors.white,
           tabAlignment: TabAlignment.start,
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           //unselectedLabelStyle:TextStyle(
           //  fontFamily: "AvantGarde",
           //),
-          indicator: const BoxDecoration(
+          indicator: BoxDecoration(
             border: Border(
               // 划线位置、线宽、颜色
               bottom: BorderSide(width: 2.0),
