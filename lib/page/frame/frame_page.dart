@@ -18,7 +18,6 @@ class FramePage extends GetView<FramePageController> {
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       extendBodyBehindAppBar: true,
-      extendBody: true,
       body: Obx(
         () => IndexedStack(
           index: controller.selectPageIndex.value,

@@ -18,8 +18,10 @@ AppBar buildAppBarText(
 
 AppBar buildAppBar({
   Widget? title,
+  double? toolbarHeight,
   List<Widget>? actions,
   Color? backgroundColor,
+  PreferredSizeWidget? bottom,
 }) {
   return AppBar(
     leading: Navigator.canPop(Get.context!)
@@ -36,7 +38,9 @@ AppBar buildAppBar({
         : null,
     titleSpacing: Navigator.canPop(Get.context!) ? 0 : null,
     title: title,
+    bottom: bottom,
     actions: actions,
+    toolbarHeight: toolbarHeight,
     backgroundColor: backgroundColor,
   );
 }

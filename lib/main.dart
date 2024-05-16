@@ -33,11 +33,11 @@ class MyApp extends StatelessWidget {
         extensions: [MyTheme.light],
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
-          //primary: Colors.amber,
+          primary: Color(0xFF252525),
           //primaryContainer: Colors.amber,
-          //onPrimary: Colors.red,
-          //secondary: Colors.red,
-          //onSecondary: Colors.amber,
+          //  onPrimary: Colors.red,
+          // secondary: Colors.red,
+          //  onSecondary: Colors.amber,
         ),
         useMaterial3: true,
         //scaffoldBackgroundColor: const Color(0xFFFAFAFA),
@@ -53,11 +53,27 @@ class MyApp extends StatelessWidget {
             systemNavigationBarColor: Colors.white,
           ),
         ),
+        tabBarTheme: TabBarTheme(
+          //dividerHeight: 0,
+          dividerColor: Colors.white,
+          tabAlignment: TabAlignment.start,
+          //labelStyle: TextStyle(
+          //  fontFamily: "AvantGarde",
+          //),
+          //unselectedLabelStyle:TextStyle(
+          //  fontFamily: "AvantGarde",
+          //),
+          indicator: const BoxDecoration(
+            border: Border(
+              // 划线位置、线宽、颜色
+              bottom: BorderSide(width: 2.0),
+            ),
+          ),
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          //backgroundColor: glassColor,
-          backgroundColor: Colors.transparent,
+          elevation: 10,
+          backgroundColor: Colors.white,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           selectedItemColor: Colors.black,
@@ -67,9 +83,11 @@ class MyApp extends StatelessWidget {
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
-            shape: MaterialStatePropertyAll(
+            minimumSize: WidgetStatePropertyAll(Size.fromHeight(46.h)),
+            shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
             ),
+            backgroundColor: const WidgetStatePropertyAll(Color(0xFF252525)),
           ),
         ),
         iconButtonTheme: const IconButtonThemeData(

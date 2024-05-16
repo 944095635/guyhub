@@ -23,8 +23,13 @@ class ExtensionPage extends GetView<ExtensionPageController> {
         preferredSize: const Size(0, kToolbarHeight),
         child: getFilterWidget(
           child: Obx(
-            () => buildAppBarText(
-              "插件列表 [${controller.count.value}]",
+            () => buildAppBar(
+              title: Text(
+                "Extensions [${controller.count.value}]",
+                style: const TextStyle(
+                  fontFamily: "AvantGarde",
+                ),
+              ),
               backgroundColor: MyTheme.get(context).aeroColor,
               actions: [
                 IconButton(
