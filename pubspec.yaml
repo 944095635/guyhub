@@ -40,7 +40,6 @@ dependencies:
   get: ^4.6.6                  #业务分类&导航等
   path: ^1.9.0                 #路径处理
   http: ^1.2.1                 #网络请求
-  
   easy_refresh: ^3.4.0         #下拉刷新
   path_provider: ^2.1.3        #路径获取
   flutter_svg: ^2.0.10+1       #SVG图标
@@ -62,8 +61,8 @@ dependencies:
   flutter_js: ^0.8.0                   #执行JS
   xpath_selector_html_parser: ^3.0.1
   #---------------------------------------------------------------------
+  url_launcher: ^6.2.6
   android_intent_plus: ^5.0.1
-  url_launcher: ^6.2.5
 
 flutter_launcher_icons:
   android: "launcher_icon"
