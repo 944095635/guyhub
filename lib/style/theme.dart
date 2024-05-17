@@ -122,14 +122,14 @@ class MyTheme extends ThemeExtension<MyTheme> {
     /// 图标颜色
     iconColor: const Color(0xFF666666),
     iconButtonStyle: const ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
+      backgroundColor: WidgetStatePropertyAll(
         Color(0xFFFEFEFE),
       ),
     ),
 
     /// 次要按钮
     secondaryButtonStyle: const ButtonStyle(
-      foregroundColor: MaterialStatePropertyAll(
+      foregroundColor: WidgetStatePropertyAll(
         Color(0xFF666666),
       ),
     ),
@@ -156,14 +156,14 @@ class MyTheme extends ThemeExtension<MyTheme> {
     /// 图标颜色
     iconColor: const Color(0xFF666666),
     iconButtonStyle: const ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
+      backgroundColor: WidgetStatePropertyAll(
         Color(0xFFF3F3F3),
       ),
     ),
 
     /// 次要按钮
     secondaryButtonStyle: const ButtonStyle(
-      foregroundColor: MaterialStatePropertyAll(
+      foregroundColor: WidgetStatePropertyAll(
         Color(0xFF666666),
       ),
     ),

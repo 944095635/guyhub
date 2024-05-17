@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -26,7 +24,9 @@ class HomePage extends GetView<HomePageLogic> {
           titleSpacing: 20.w,
           bottom: buildTabs(),
         ),
-        body: buildBody(),
+        body: SafeArea(
+          child: buildBody(),
+        ),
       ),
     );
   }
@@ -79,7 +79,7 @@ class HomePage extends GetView<HomePageLogic> {
         ListView.separated(
           itemCount: controller.moives.length,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             Moive moive = controller.moives[index];
             return buildMoiveItem(moive);
@@ -216,10 +216,10 @@ class HomePage extends GetView<HomePageLogic> {
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
               Text(
-                "导演：" + moive.directo,
+                "导演：${moive.directo}",
               ),
               Text(
-                "主演：" + moive.performer,
+                "主演：${moive.performer}",
               ),
               Text(
                 moive.tags,
@@ -252,15 +252,15 @@ class HomePage extends GetView<HomePageLogic> {
                 "死亡谷",
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
-              Text(
+              const Text(
                 "导演：丁晟",
               ),
-              Text(
+              const Text(
                 "主演：杨幂/于谦/田雨/余皑磊/李九霄/黄小蕾",
               ),
               Wrap(
                 spacing: 10.w,
-                children: [
+                children: const [
                   Text(
                     "2021",
                   ),
