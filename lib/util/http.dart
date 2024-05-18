@@ -17,14 +17,13 @@ class Http {
       var response = await http
           .get(uri, headers: headers)
           .timeout(const Duration(seconds: 60));
-          String body = utf8.decode(gzip.decode(response.bodyBytes));
+      if (response.statusCode == 200) {
+        result.success = true;
+      }
       if (response.body.isNotEmpty) {
-        
+        String body = utf8.decode(response.bodyBytes);
         debugPrint("HTML:$body");
         result.data = body;
-        if (response.statusCode == 200) {
-          result.success = true;
-        }
       } else {
         result.msg = "networkError";
       }

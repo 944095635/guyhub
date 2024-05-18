@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/search/search_input_page.dart';
@@ -30,86 +31,122 @@ class SearchPage extends StatelessWidget {
           Container(
             color: const Color(0xCCFFFFFF),
           ),
-          Center(
-            child: GestureDetector(
-              onTap: () async {
-                await Get.to(
-                  () => const SearchInputPage(),
-                  transition: Transition.fadeIn,
-                  duration: const Duration(milliseconds: 1200),
-                );
-              },
+          Positioned(
+            top: 120.h,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Text(
+                  "丐帮",
+                  style: TextStyle(fontSize: 80.sp),
+                ),
+                60.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 30.w,
+                    right: 30.w,
+                  ),
+                  child: buildSearchBox(),
+                ),
+                40.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: buildIntroRow([
+                    buildIntroItem("image", "图片"),
+                    buildIntroItem("music", "音乐"),
+                    buildIntroItem("video", "媒体"),
+                  ]),
+                ),
+                30.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: buildIntroRow([
+                    buildIntroItem("bt", "种子"),
+                    buildIntroItem("acg", "动漫"),
+                    buildIntroItem("book", "书籍"),
+                  ]),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  /// 搜索区域
+  Widget buildSearchBox() {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        Get.to(
+          () => const SearchInputPage(),
+          transition: Transition.fadeIn,
+          duration: Durations.extralong2,
+        );
+      },
+      child: SizedBox(
+        height: 48.h,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Hero(
+              tag: "search",
+              child: Container(
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 20.w),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color(0xFF666666),
+                    width: 1.5,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text("搜索一切"),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Hero(
-                        tag: "search",
-                        child: Container(
-                          height: 48.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: const Color(0xFF333333),
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 20.w),
-                        child: ImageHelper.getSvg(
-                          "search",
-                          color: const Color(0xFF333333),
-                          size: 22.sp,
-                        ),
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.only(right: 20.w),
+                child: ImageHelper.getSvg(
+                  "search",
+                  color: const Color(0xFF666666),
+                  size: 22.sp,
                 ),
               ),
             ),
-          ),
-          //Center( //    child: TextField(
-          //      decoration: InputDecoration(
-          //        hintText: "SEARCH ANYTHING",
-          //        hintStyle: TextStyles.avantGarde,
-          //        suffixIconConstraints: BoxConstraints(minWidth: 50.w),
-          //        suffixIcon: ImageHelper.getSvg(
-          //          "search",
-          //          color: const Color(0xFF333333),
-          //          size: 22.sp,
-          //        ),
-          //        fillColor: const Color(0x22FFFFFF),
-          //        filled: true,
-          //        enabledBorder: OutlineInputBorder(
-          //          borderSide: const BorderSide(
-          //            width: 2,
-          //            color: Color(0xFF555555),
-          //          ),
-          //          borderRadius: BorderRadius.circular(10),
-          //        ),
-          //        focusedBorder: OutlineInputBorder(
-          //          borderSide: const BorderSide(
-          //            width: 2,
-          //            color: Color(0xFF555555),
-          //          ),
-          //          borderRadius: BorderRadius.circular(10),
-          //        ),
-          //      ),
-          //    ),
-          //  ),
-          //  child: Padding(
-          //    padding: EdgeInsets.symmetric(horizontal: 20.w),
-         
-          //),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  /// 介绍-行
+  Widget buildIntroRow(List<Widget> rows) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: rows,
+    );
+  }
+
+  /// 单个介绍项目
+  /// 上面图片
+  /// 下面描述文字
+  Widget buildIntroItem(String img, String title) {
+    return Column(
+      children: [
+        ImageHelper.getSvg(
+          img,
+          size: 30.w,
+        ),
+        10.verticalSpace,
+        Text(
+          title,
+        ),
+      ],
     );
   }
 }

@@ -81,7 +81,7 @@ class FramePage extends GetView<FramePageController> {
   /// 搜索按钮
   Widget buildSearchButton(Color? color) {
     return ImageHelper.getSvg(
-      "search",
+      "search2",
       color: color,
       size: 26.sp,
     );
@@ -99,7 +99,7 @@ class FramePage extends GetView<FramePageController> {
   /// 插件
   Widget buildExtensionButton(Color? color) {
     return ImageHelper.getSvg(
-      "apps",
+      "ext",
       color: color,
       size: 26.sp,
     );
