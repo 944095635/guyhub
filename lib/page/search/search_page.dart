@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/search/search_input_page.dart';
@@ -104,7 +103,7 @@ class SearchPage extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Text("搜索一切"),
+                child: const Text("搜索一切"),
               ),
             ),
             Align(

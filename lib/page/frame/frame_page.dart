@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:guyhub/page/extension/extension_page.dart';
 import 'package:guyhub/page/frame/frame_page_controller.dart';
 import 'package:guyhub/page/home/home_page.dart';
+import 'package:guyhub/page/ithome/ithome_page.dart';
 import 'package:guyhub/page/search/search_page.dart';
 import 'package:guyhub/util/image_helper.dart';
 
@@ -23,9 +24,9 @@ class FramePage extends GetView<FramePageController> {
           index: controller.selectPageIndex.value,
           children: const [
             SearchPage(),
-            HomePage(),
+            IthomePage(),
             ExtensionPage(),
-            Text("data"),
+            HomePage(),
           ],
         ),
       ),
