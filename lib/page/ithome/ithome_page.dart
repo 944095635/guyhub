@@ -46,40 +46,7 @@ class IthomePage extends GetView<IthomePageLogic> {
                     itemCount: controller.news.length,
                     itemBuilder: (context, index) {
                       News news = controller.news[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 10.h,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(news.title),
-                                  10.verticalSpace,
-                                  Text(
-                                    news.time ?? "",
-                                    style: const TextStyle(
-                                      color: Color(0xFF888888),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            10.horizontalSpace,
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: CachedNetworkImage(
-                                imageUrl: news.image,
-                                width: 100.w,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      return buildNewsItem(news);
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return Divider(
@@ -95,6 +62,44 @@ class IthomePage extends GetView<IthomePageLogic> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// 绘制新闻子项
+  Widget buildNewsItem(News news) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.w,
+        vertical: 10.h,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(news.title),
+                10.verticalSpace,
+                Text(
+                  news.time ?? "",
+                  style: const TextStyle(
+                    color: Color(0xFF888888),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          10.horizontalSpace,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: CachedNetworkImage(
+              imageUrl: news.image,
+              width: 100.w,
+            ),
+          ),
+        ],
       ),
     );
   }
