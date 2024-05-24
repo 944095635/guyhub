@@ -40,6 +40,7 @@ dependencies:
   get: ^4.6.6                  #业务分类&导航等
   path: ^1.9.0                 #路径处理
   http: ^1.2.1                 #网络请求
+  url_launcher: ^6.2.6         #调用迅雷
   # --------------------------------------------
   animate_do: ^3.3.4           #动画组件
 
@@ -65,7 +66,6 @@ dependencies:
   #webview_flutter: ^4.7.0
   xpath_selector_html_parser: ^3.0.1
   #---------------------------------------------------------------------
-  url_launcher: ^6.2.6
   android_intent_plus: ^5.0.1
 
 flutter_launcher_icons:

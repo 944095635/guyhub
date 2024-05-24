@@ -17,50 +17,48 @@ class IthomePage extends GetView<IthomePageLogic> {
         title: const Text("新闻"),
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: EasyRefresh(
-          onRefresh: () async {
-            await controller.onRefresh();
-          },
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 150.h,
-                  child: Obx(() => PageView.builder(
-                        itemCount: controller.focusList.length,
-                        itemBuilder: (context, index) {
-                          News focusOwl = controller.focusList[index];
-                          return CachedNetworkImage(imageUrl: focusOwl.image);
-                        },
-                      )),
+      body: EasyRefresh(
+        onRefresh: () async {
+          await controller.onRefresh();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 150.h,
+                child: Obx(() => PageView.builder(
+                      itemCount: controller.focusList.length,
+                      itemBuilder: (context, index) {
+                        News focusOwl = controller.focusList[index];
+                        return CachedNetworkImage(imageUrl: focusOwl.image);
+                      },
+                    )),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: 20.verticalSpace,
+            ),
+            DecoratedSliver(
+              decoration: const BoxDecoration(color: Colors.white),
+              sliver: Obx(
+                () => SliverList.separated(
+                  itemCount: controller.news.length,
+                  itemBuilder: (context, index) {
+                    News news = controller.news[index];
+                    return buildNewsItem(news);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 20,
+                      indent: 20.w,
+                      endIndent: 20.w,
+                      color: const Color(0xFFF8F8F8),
+                    );
+                  },
                 ),
               ),
-              SliverToBoxAdapter(
-                child: 20.verticalSpace,
-              ),
-              DecoratedSliver(
-                decoration: const BoxDecoration(color: Colors.white),
-                sliver: Obx(
-                  () => SliverList.separated(
-                    itemCount: controller.news.length,
-                    itemBuilder: (context, index) {
-                      News news = controller.news[index];
-                      return buildNewsItem(news);
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider(
-                        height: 20,
-                        indent: 20.w,
-                        endIndent: 20.w,
-                        color: const Color(0xFFF8F8F8),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

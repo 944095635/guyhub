@@ -1,69 +1,53 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:guyhub/model/search.dart';
+import 'package:guyhub/page/search/search_input_page_logic.dart';
 
 /// 搜索输入页面
-class SearchInputPage extends StatelessWidget {
+class SearchInputPage extends GetView<SearchInputPageLogic> {
   const SearchInputPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(SearchInputPageLogic());
     return Scaffold(
       appBar: buildAppbar(),
-      body: ListView.builder(
-        itemCount: 100,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 20.w,
-              vertical: 10.h,
-            ),
-            padding: EdgeInsets.all(20.w),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(250, 250, 250, 1),
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "寄生兽：灰色部队",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF333333),
-                  ),
-                ),
-                6.verticalSpace,
-                Row(
-                  children: [
-                    Text(
-                      "数量: 7",
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: const Color(0xFF999999),
-                      ),
+      //让键盘盖住内容-防止loading跳动
+      resizeToAvoidBottomInset: false,
+      body: controller.obx(
+        (data) => EasyRefresh(
+          onLoad: () async {
+            bool more = await controller.loadMore();
+            return more ? IndicatorResult.success : IndicatorResult.noMore;
+          },
+          child: ListView.builder(
+            itemCount: data!.length,
+            itemBuilder: (context, index) {
+              Search search = data[index];
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: buildItem(search),
+                onTap: () {
+                  controller.download(search);
+                },
+              );
+            },
+          ),
+        ),
+        onEmpty: Obx(
+          () => controller.init.value
+              ? const Center(
+                  child: Text(
+                    "无相关内容",
+                    style: TextStyle(
+                      color: Color(0xFF999999),
                     ),
-                    6.horizontalSpace,
-                    Text(
-                      "大小:6.01 GB",
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: const Color(0xFF999999),
-                      ),
-                    ),
-                  ],
-                ),
-                6.verticalSpace,
-                const Text(
-                  "2024-04-06 05:05:51",
-                  style: TextStyle(
-                    color: Color(0xFF999999),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                )
+              : const SizedBox(),
+        ),
       ),
     );
   }
@@ -87,8 +71,13 @@ class SearchInputPage extends StatelessWidget {
         //    borderRadius: BorderRadius.circular(50),
         //  ),
         //),
-
         child: TextField(
+          focusNode: controller.focusNode,
+          controller: controller.editingController,
+          textInputAction: TextInputAction.search,
+          onSubmitted: (value) {
+            controller.search();
+          },
           decoration: InputDecoration(
             /// `EdgeInsets.fromLTRB(12, 20, 12, 12)` when [isDense] is true
             /// and `EdgeInsets.fromLTRB(12, 24, 12, 16)` when [isDense] is false.
@@ -103,7 +92,14 @@ class SearchInputPage extends StatelessWidget {
             //  color: const Color(0xFF333333),
             //  size: 22.sp,
             //),
-            suffixText: "取消",
+            suffix: Obx(
+              () => GestureDetector(
+                onTap: controller.onAction,
+                child: controller.key.isEmpty
+                    ? const Text("取消")
+                    : const Text("清除"),
+              ),
+            ),
             fillColor: const Color(0x22FFFFFF),
             filled: true,
             enabledBorder: OutlineInputBorder(
@@ -122,6 +118,43 @@ class SearchInputPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildItem(Search search) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 20.w,
+        vertical: 10.h,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.w,
+        vertical: 10.h,
+      ),
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(250, 250, 250, 1),
+        borderRadius: BorderRadius.circular(5.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            search.name,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF333333),
+            ),
+          ),
+          6.verticalSpace,
+          Text(
+            search.date,
+            style: const TextStyle(
+              color: Color(0xFF999999),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -35,6 +35,8 @@ class FramePage extends GetView<FramePageController> {
           onTap: (index) {
             controller.selectPageIndex.value = index;
           },
+          backgroundColor:
+              controller.selectPageIndex.value == 0 ? null : Colors.white,
           currentIndex: controller.selectPageIndex.value,
           items: [
             BottomNavigationBarItem(
