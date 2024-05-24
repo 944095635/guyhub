@@ -94,11 +94,17 @@ class MyApp extends StatelessWidget {
             backgroundColor: const WidgetStatePropertyAll(Color(0xFF252525)),
           ),
         ),
-        textButtonTheme: const TextButtonThemeData(
+        textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: WidgetStatePropertyAll(
-              Color(0xFF666666),
+            textStyle: WidgetStatePropertyAll(
+              TextStyle(fontSize: 14.sp),
             ),
+            foregroundColor: WidgetStateProperty.resolveWith((state) {
+              if (state.contains(WidgetState.disabled)) {
+                return const Color(0xFFAAAAAA);
+              }
+              return const Color(0xFF555555);
+            }),
           ),
         ),
         iconButtonTheme: const IconButtonThemeData(

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart'
-    show FocusNode, TextEditingController, debugPrint;
+    show Durations, FocusNode, TextEditingController, debugPrint;
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/search.dart';
 import 'package:guyhub/util/http.dart';
@@ -22,6 +24,9 @@ class SearchInputPageLogic extends GetxController
 
   /// 是否已经开始搜索
   RxBool init = RxBool(false);
+
+  /// 是否获取焦点
+  RxBool focus = RxBool(false);
 
   /// 关键字
   RxString key = RxString("");
@@ -121,16 +126,32 @@ class SearchInputPageLogic extends GetxController
     return loadData();
   }
 
+  /// 清除输入
+  void clear() {
+    value?.clear();
+    editingController.clear();
+
+    //清空数据
+    change(value, status: RxStatus.success());
+  }
+
   /// 点击按钮
   void onAction() {
     if (key.isEmpty) {
-      Get.back();
+      back();
     } else {
       value?.clear();
       change(value, status: RxStatus.success());
       editingController.clear();
       focusNode.requestFocus();
     }
+  }
+
+  /// 后退返回上一页面
+  void back() async {
+    focusNode.unfocus();
+    await Future.delayed(Durations.short2);
+    Get.back();
   }
 
   /// 下载
@@ -141,19 +162,35 @@ class SearchInputPageLogic extends GetxController
     //intent.addCategory("android.intent.category.DEFAULT");
     //startActivity(intent);
     if (search.magnet?.isNotEmpty == true) {
-      Uri uri = Uri.parse(search.magnet!);
       if (Platform.isWindows) {
-        launchUrl(uri,mode: LaunchMode.externalApplication);
+        Uri uri = Uri.parse(search.magnet!);
+        launchUrl(uri, mode: LaunchMode.externalApplication);
       } else if (Platform.isAndroid) {
-        if (await canLaunchUrl(uri)) {
-          await AndroidIntent(
-            action: 'action_view',
-            data: search.magnet!,
-            //type: 'video/*',
-          ).launch();
-        }
+        openInAndroid(search);
       }
     }
+  }
+
+  /// 打开 - 安卓
+  void openInAndroid(Search search) async {
+    Get.back();
+    try {
+      await AndroidIntent(
+        action: 'action_view',
+        data: search.magnet!,
+        //type: 'video/*',
+      ).launch();
+    } catch (e) {
+      SmartDialog.showToast("打开失败,错误:$e");
+    }
+  }
+
+  /// 复制到剪切板
+  void copy(Search search) async {
+    ClipboardData clipboardData = ClipboardData(text: search.magnet!);
+    await Clipboard.setData(clipboardData);
+    SmartDialog.showToast("复制到剪切板");
+    Get.back();
   }
 
 //String link = "";

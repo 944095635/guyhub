@@ -71,54 +71,102 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
         //    borderRadius: BorderRadius.circular(50),
         //  ),
         //),
-        child: TextField(
-          focusNode: controller.focusNode,
-          controller: controller.editingController,
-          textInputAction: TextInputAction.search,
-          onSubmitted: (value) {
-            controller.search();
+        child: Focus(
+          onFocusChange: (value) {
+            controller.focus.value = value;
           },
-          decoration: InputDecoration(
-            /// `EdgeInsets.fromLTRB(12, 20, 12, 12)` when [isDense] is true
-            /// and `EdgeInsets.fromLTRB(12, 24, 12, 16)` when [isDense] is false.
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 20.w,
-              vertical: 10.h,
-            ),
-            hintText: "搜索",
-            suffixIconConstraints: BoxConstraints(minWidth: 50.w),
-            //suffixIcon: ImageHelper.getSvg(
-            //  "search",
-            //  color: const Color(0xFF333333),
-            //  size: 22.sp,
-            //),
-            suffix: Obx(
-              () => GestureDetector(
-                onTap: controller.onAction,
-                child: controller.key.isEmpty
-                    ? const Text("取消")
-                    : const Text("清除"),
+          child: TextField(
+            focusNode: controller.focusNode,
+            controller: controller.editingController,
+            textInputAction: TextInputAction.search,
+            onSubmitted: (value) {
+              controller.search();
+            },
+            decoration: InputDecoration(
+              /// `EdgeInsets.fromLTRB(12, 20, 12, 12)` when [isDense] is true
+              /// and `EdgeInsets.fromLTRB(12, 24, 12, 16)` when [isDense] is false.
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 10.h,
               ),
-            ),
-            fillColor: const Color(0x22FFFFFF),
-            filled: true,
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                width: 1.5,
-                color: Color(0xFF555555),
+              hintText: "输入你要搜索的关键词",
+              hintStyle: TextStyle(
+                fontSize: 14.sp,
+                color: const Color(0xFF666666),
               ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                width: 2,
-                color: Color(0xFF555555),
+              suffixIconConstraints: BoxConstraints(minWidth: 50.w),
+              //suffixIcon: ImageHelper.getSvg(
+              //  "search",
+              //  color: const Color(0xFF333333),
+              //  size: 22.sp,
+              //),
+              suffixIcon: buildAction(),
+              //suffix: Obx(
+              //  () => GestureDetector(
+              //    onTap: controller.onAction,
+              //    child: controller.key.isEmpty
+              //        ? const Text("取消")
+              //        : const Text("清除"),
+              //  ),
+              //),
+              fillColor: const Color(0x22FFFFFF),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  width: 1.5,
+                  color: Color(0xFF555555),
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
-              borderRadius: BorderRadius.circular(10),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: Color(0xFF555555),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  /// 输入框操作区域
+  Widget buildAction() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 删除按钮
+        Obx(
+          () => controller.focus.value && controller.key.value.isNotEmpty
+              ? IconButton(
+                  onPressed: controller.clear,
+                  icon: Icon(
+                    Icons.close,
+                    size: 18.sp,
+                    color: const Color(0xFF888888),
+                  ),
+                )
+              : const SizedBox(),
+        ),
+
+        SizedBox(
+          height: 14.h,
+          child: const VerticalDivider(
+            width: 1,
+            color: Color(0xFF888888),
+          ),
+        ),
+
+        // 搜索按钮
+        Obx(
+          () => TextButton(
+            onPressed: controller.key.isNotEmpty ? controller.search : null,
+            child: const Text("搜索"),
+          ),
+        )
+      ],
     );
   }
 
@@ -187,16 +235,18 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
                 color: const Color(0xFF333333),
               ),
             ),
-            60.verticalSpace,
+            20.verticalSpace,
             FilledButton(
               onPressed: () {
                 controller.download(search);
               },
-              child: Text("打开"),
+              child: const Text("打开"),
             ),
             TextButton(
-              onPressed: () {},
-              child: Text("复制"),
+              onPressed: () {
+                controller.copy(search);
+              },
+              child: const Text("复制"),
             )
           ],
         ),
