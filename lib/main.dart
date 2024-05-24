@@ -110,6 +110,10 @@ class MyApp extends StatelessWidget {
         iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
         ),
+        chipTheme: const ChipThemeData(
+          side: BorderSide.none,
+          backgroundColor: Color(0xFFEFEFEF),
+        ),
       ),
       home: const SplashPage(),
       builder: FlutterSmartDialog.init(

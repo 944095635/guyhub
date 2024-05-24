@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart'
     show Durations, FocusNode, TextEditingController, debugPrint;
@@ -91,7 +90,9 @@ class SearchInputPageLogic extends GetxController
           }
         }
       }
-      if (newData.isNotEmpty) {
+
+      /// 没有新数据&或者&用户提前清除了搜索内容
+      if (key.isNotEmpty && newData.isNotEmpty) {
         value!.addAll(newData);
         //搜索完成，根据结果显示信息
         change(value, status: RxStatus.success());
@@ -114,6 +115,7 @@ class SearchInputPageLogic extends GetxController
 
   /// 开始搜索
   void search() {
+    focusNode.unfocus();
     init.value = true;
     pageIndex = 1;
     value?.clear();
@@ -132,7 +134,7 @@ class SearchInputPageLogic extends GetxController
     editingController.clear();
 
     //清空数据
-    change(value, status: RxStatus.success());
+    change(value, status: RxStatus.empty());
   }
 
   /// 点击按钮

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/search.dart';
 import 'package:guyhub/page/search/search_input_page_logic.dart';
+import 'package:guyhub/util/image_helper.dart';
 
 /// 搜索输入页面
 class SearchInputPage extends GetView<SearchInputPageLogic> {
@@ -37,16 +38,92 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
           ),
         ),
         onEmpty: Obx(
-          () => controller.init.value
-              ? const Center(
-                  child: Text(
-                    "无相关内容",
-                    style: TextStyle(
-                      color: Color(0xFF999999),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
+          //当输入了搜索词 并且 没有焦点 显示 空数据
+          () => controller.key.isNotEmpty && !controller.focus.value
+              ? buildEmpty()
+              //获得焦点显示引导，没有焦点不显示任何东西(刚进入界面)
+              : controller.focus.value
+                  ? buildIntro()
+                  : const SizedBox(),
+        ),
+        onError: (e) => buildError(),
+      ),
+    );
+  }
+
+  /// 绘制推荐搜索界面
+  Widget buildIntro() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.w,
+        vertical: 10.h,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("最近搜索:"),
+          6.verticalSpace,
+          Wrap(
+            spacing: 10.h,
+            children: [
+              ActionChip(
+                onPressed: () {
+                  controller.editingController.text = "寄生兽";
+                  controller.search();
+                },
+                label: const Text("寄生兽:灰色战队"),
+                avatar: ImageHelper.getSvg("video"),
+              ),
+              ActionChip(
+                onPressed: () {
+                  controller.editingController.text = "变形金刚4";
+                  controller.search();
+                },
+                label: const Text("变形金刚4"),
+                avatar: ImageHelper.getSvg("bt"),
+              ),
+              ActionChip(
+                onPressed: () {
+                  controller.editingController.text = "普罗米修斯";
+                  controller.search();
+                },
+                label: const Text("普罗米修斯"),
+                avatar: ImageHelper.getSvg("book"),
+              ),
+              ActionChip(
+                onPressed: () {
+                  controller.editingController.text = "星际穿越";
+                  controller.search();
+                },
+                label: const Text("星际穿越"),
+                avatar: ImageHelper.getSvg("music"),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 绘制错误界面
+  Widget buildError() {
+    return const Center(
+      child: Text(
+        "无法链接到服务器",
+        style: TextStyle(
+          color: Color(0xFF999999),
+        ),
+      ),
+    );
+  }
+
+  /// 绘制错误界面
+  Widget buildEmpty() {
+    return const Center(
+      child: Text(
+        "无相关内容",
+        style: TextStyle(
+          color: Color(0xFF999999),
         ),
       ),
     );
@@ -57,20 +134,9 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
     return AppBar(
       automaticallyImplyLeading: false,
       titleSpacing: 20.w,
-      toolbarHeight: 60.h,
+      toolbarHeight: 80.h,
       title: Hero(
         tag: "search",
-        //child: Container(
-        //  height: 40.h,
-        //  width: double.infinity,
-        //  decoration: BoxDecoration(
-        //    border: Border.all(
-        //      color: Color(0xFF333333),
-        //      width: 2,
-        //    ),
-        //    borderRadius: BorderRadius.circular(50),
-        //  ),
-        //),
         child: Focus(
           onFocusChange: (value) {
             controller.focus.value = value;

@@ -37,8 +37,13 @@ class SearchPage extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "丐帮",
-                  style: TextStyle(fontSize: 80.sp),
+                  "GUY",
+                  textHeightBehavior: const TextHeightBehavior(
+                    applyHeightToLastDescent: false,
+                  ),
+                  style: TextStyles.avantGarde.copyWith(
+                    fontSize: 80.sp,
+                  ),
                 ),
                 60.verticalSpace,
                 Padding(
