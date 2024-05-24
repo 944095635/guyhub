@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
         context,
         designSize: const Size(375, 812),
       );
+    } else {
+      ScreenUtil.init(context);
     }
     return GetMaterialApp(
       title: 'Guy Hub',

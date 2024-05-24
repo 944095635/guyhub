@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart'
     show FocusNode, TextEditingController, debugPrint;
@@ -140,12 +142,16 @@ class SearchInputPageLogic extends GetxController
     //startActivity(intent);
     if (search.magnet?.isNotEmpty == true) {
       Uri uri = Uri.parse(search.magnet!);
-      if (await canLaunchUrl(uri)) {
-        await AndroidIntent(
-          action: 'action_view',
-          data: search.magnet!,
-          //type: 'video/*',
-        ).launch();
+      if (Platform.isWindows) {
+        launchUrl(uri,mode: LaunchMode.externalApplication);
+      } else if (Platform.isAndroid) {
+        if (await canLaunchUrl(uri)) {
+          await AndroidIntent(
+            action: 'action_view',
+            data: search.magnet!,
+            //type: 'video/*',
+          ).launch();
+        }
       }
     }
   }
