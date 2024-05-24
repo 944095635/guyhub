@@ -30,7 +30,7 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
                 behavior: HitTestBehavior.opaque,
                 child: buildItem(search),
                 onTap: () {
-                  controller.download(search);
+                  showMenu(search);
                 },
               );
             },
@@ -122,6 +122,7 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
     );
   }
 
+  ///搜索项目
   Widget buildItem(Search search) {
     return Container(
       margin: EdgeInsets.symmetric(
@@ -155,6 +156,53 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// 显示弹出菜单
+  void showMenu(Search search) {
+    Get.bottomSheet(
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        padding: EdgeInsets.only(
+          left: 20.w,
+          right: 20.w,
+          top: 20.h,
+          bottom: 10.h,
+        ),
+        margin: EdgeInsets.all(20.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              search.name,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF333333),
+              ),
+            ),
+            60.verticalSpace,
+            FilledButton(
+              onPressed: () {
+                controller.download(search);
+              },
+              child: Text("打开"),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text("复制"),
+            )
+          ],
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r),
       ),
     );
   }

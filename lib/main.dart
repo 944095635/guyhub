@@ -92,36 +92,12 @@ class MyApp extends StatelessWidget {
             backgroundColor: const WidgetStatePropertyAll(Color(0xFF252525)),
           ),
         ),
-        iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-        ),
-      ),
-      darkTheme: ThemeData(
-        extensions: [MyTheme.dark],
-        scaffoldBackgroundColor: Colors.black,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.transparent,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarBrightness: Brightness.dark,
-            statusBarIconBrightness: Brightness.light, //状态栏黑色图标
-            systemNavigationBarColor: Colors.black,
+        textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: WidgetStatePropertyAll(
+              Color(0xFF666666),
+            ),
           ),
-        ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white38,
-          selectedLabelStyle: TextStyle(fontSize: 11.sp),
-          unselectedLabelStyle: TextStyle(fontSize: 11.sp),
         ),
         iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
