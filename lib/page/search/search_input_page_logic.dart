@@ -189,6 +189,15 @@ class SearchInputPageLogic extends GetxController
 
   /// 复制到剪切板
   void copy(Search search) async {
+    //SmartDialog.showLoading(msg: "复制到剪切板1");
+    //await Future.delayed(Duration(seconds: 2));
+    //SmartDialog.dismiss();
+    //await Future.delayed(Duration(milliseconds: 250));
+    //SmartDialog.showLoading(msg: "复制到剪切板2");
+    //await Future.delayed(Duration(seconds: 2));
+    //SmartDialog.dismiss();
+    //return;
+    ////
     ClipboardData clipboardData = ClipboardData(text: search.magnet!);
     await Clipboard.setData(clipboardData);
     SmartDialog.showToast("复制到剪切板");

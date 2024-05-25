@@ -13,68 +13,60 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-            child: Text(
-              "G",
-              style: TextStyles.avantGarde.copyWith(
-                fontSize: 860.sp,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF1536ED),
+      appBar: AppBar(toolbarHeight: 0),
+      body: buildBody(),
+    );
+  }
+
+  /// 绘制整体
+  Widget buildBody() {
+    return Stack(
+      children: [
+        ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+          child: Text(
+            "G",
+            style: TextStyles.avantGarde.copyWith(
+              fontSize: 860.sp,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF1536ED),
+            ),
+          ),
+        ),
+        Container(
+          color: const Color(0xCCFFFFFF),
+        ),
+        Positioned(
+          top: 120.h,
+          left: 0,
+          right: 0,
+          child: Column(
+            children: [
+              buildLogo(),
+              60.verticalSpace,
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 20.w,
+                  right: 20.w,
+                ),
+                child: buildSearchBox(),
               ),
-            ),
+            ],
           ),
-          Container(
-            color: const Color(0xCCFFFFFF),
-          ),
-          Positioned(
-            top: 120.h,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Text(
-                  "GUY",
-                  textHeightBehavior: const TextHeightBehavior(
-                    applyHeightToLastDescent: false,
-                  ),
-                  style: TextStyles.avantGarde.copyWith(
-                    fontSize: 80.sp,
-                  ),
-                ),
-                60.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 30.w,
-                    right: 30.w,
-                  ),
-                  child: buildSearchBox(),
-                ),
-                40.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.w),
-                  child: buildIntroRow([
-                    buildIntroItem("image", "图片"),
-                    buildIntroItem("music", "音乐"),
-                    buildIntroItem("video", "媒体"),
-                  ]),
-                ),
-                30.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.w),
-                  child: buildIntroRow([
-                    buildIntroItem("bt", "种子"),
-                    buildIntroItem("acg", "动漫"),
-                    buildIntroItem("book", "书籍"),
-                  ]),
-                )
-              ],
-            ),
-          )
-        ],
+        )
+      ],
+    );
+  }
+
+  /// 绘制LOGO
+  Widget buildLogo() {
+    return Text(
+      "G",
+      textHeightBehavior: const TextHeightBehavior(
+        applyHeightToLastDescent: false,
+      ),
+      style: TextStyles.avantGarde.copyWith(
+        fontSize: 100.sp,
       ),
     );
   }
@@ -91,7 +83,7 @@ class SearchPage extends StatelessWidget {
         );
       },
       child: SizedBox(
-        height: 48.h,
+        height: 50.h,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -124,32 +116,6 @@ class SearchPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  /// 介绍-行
-  Widget buildIntroRow(List<Widget> rows) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: rows,
-    );
-  }
-
-  /// 单个介绍项目
-  /// 上面图片
-  /// 下面描述文字
-  Widget buildIntroItem(String img, String title) {
-    return Column(
-      children: [
-        ImageHelper.getSvg(
-          img,
-          size: 30.w,
-        ),
-        10.verticalSpace,
-        Text(
-          title,
-        ),
-      ],
     );
   }
 }
