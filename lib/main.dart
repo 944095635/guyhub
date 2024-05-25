@@ -89,9 +89,13 @@ class MyApp extends StatelessWidget {
           style: ButtonStyle(
             minimumSize: WidgetStatePropertyAll(Size.fromHeight(46.h)),
             shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.r),
+              ),
             ),
-            backgroundColor: const WidgetStatePropertyAll(Color(0xFF252525)),
+            backgroundColor: const WidgetStatePropertyAll(
+              Color(0xFF252525),
+            ),
           ),
         ),
         textButtonTheme: TextButtonThemeData(
