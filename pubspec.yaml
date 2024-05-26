@@ -36,6 +36,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   # cupertino_icons: ^1.0.6
 
+  # 通用样式组件
+  flutter_styled:
+    #path: ../flutter_styled // 本地引用方式
+    git: 
+       url: https://github.com/DMSkin/flutter_styled.git
+       # ref: main //分支
+       # path: ../flutter_styled  //设置本地路径，但是暂时无效
+       # name: flutter_styled //名称
+
   # --------------------------------------------
   # 系统组件
   get: ^4.6.6                           #业务分类&导航等

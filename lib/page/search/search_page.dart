@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_styled/padding_extension.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/page/search/search_input_page.dart';
 import 'package:guyhub/style/style.dart';
@@ -44,11 +45,7 @@ class SearchPage extends StatelessWidget {
             children: [
               buildLogo(),
               60.verticalSpace,
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 20.w,
-                  right: 20.w,
-                ),
+              paddingH20(
                 child: buildSearchBox(),
               ),
             ],

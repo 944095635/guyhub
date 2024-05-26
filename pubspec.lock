@@ -350,6 +350,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.7.0"
+  flutter_styled:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "4c2e66801d64e8a96b3fc49459f7963bc80a8ff7"
+      url: "https://github.com/DMSkin/flutter_styled.git"
+    source: git
+    version: "0.0.1"
   flutter_svg:
     dependency: "direct main"
     description:
