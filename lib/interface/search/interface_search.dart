@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:get/get.dart';
+import 'package:guyhub/model/search.dart';
 import 'package:guyhub/util/http.dart';
 
 /// 种子搜索接口
@@ -7,8 +8,11 @@ abstract class InterfaceSearch {
   /// 官网
   abstract String url;
 
+  /// 详情页关键词
+  abstract String detail;
+
   /// 初始化是否完成
-  RxBool initSuccess = RxBool(false);
+  bool initSuccess = false;
 
   /// Web控制器
   InAppWebViewController? controller;
@@ -16,26 +20,51 @@ abstract class InterfaceSearch {
   /// 构造函数
   InterfaceSearch(
     InAppWebViewController inAppWebViewController,
+    this.onInit,
     this.onFinish,
+    this.onOpen,
   ) {
     controller = inAppWebViewController;
     controller!.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
   }
 
   /// 搜索
-  void search(String keyword);
+  void search(String keyword, int pageIndex);
+
+  /// 打开一个详情页面
+  void open(Search search);
 
   /// 解析数据
   Future analysis(WebUri? webUri);
 
+  /// 解析数据
+  Future analysisDetail();
+
+  /// 数据加载完成
+  void Function()? onInit;
+
   /// 数据加载完成
   void Function(ServiceResultData result)? onFinish;
 
+  /// 获取下载地址
+  void Function(String magnet)? onOpen;
+
   /// 页面加载完成
   void onWebViewLoadStop(WebUri? webUri) async {
-    if (webUri?.rawValue == url) {
-      initSuccess.value = true;
-    } else {
+    debugPrint("onWebViewLoadStop:${webUri?.rawValue ?? ""}");
+    if (webUri?.rawValue.contains(url) == true && !initSuccess) {
+      initSuccess = true;
+      onInit?.call();
+    } else if (webUri?.rawValue.contains("302") == true) {
+      initSuccess = true;
+      //onInit?.call();
+    } else if (webUri?.rawValue.contains(detail) == true) {
+      String? href = await analysisDetail();
+      if (href != null) {
+        onOpen?.call(href);
+      }
+    } else if (webUri?.rawValue.contains("search?keyword=") == true) {
+      debugPrint("onWebViewLoadStop:${webUri!.rawValue}");
       ServiceResultData result = ServiceResultData();
       result.data = await analysis(webUri);
 
@@ -49,7 +78,7 @@ abstract class InterfaceSearch {
       onFinish?.call(result);
     }
   }
-  
+
   /// 销毁
   void dispose() {
     controller?.dispose();

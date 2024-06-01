@@ -24,11 +24,11 @@ class SearchPage extends StatelessWidget {
     return Stack(
       children: [
         ImageFiltered(
-          imageFilter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+          imageFilter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
           child: Text(
             "G",
             style: TextStyles.avantGarde.copyWith(
-              fontSize: 860.sp,
+              fontSize: 800.sp,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF1536ED),
             ),

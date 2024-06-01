@@ -21,24 +21,35 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Opacity(
-            opacity: 1,
-            child: InAppWebView(
-              onWebViewCreated: controller.initWebController,
-              onLoadStop: controller.onWebViewLoadStop,
-              onReceivedError: (controller, request, error) {
-                debugPrint(error.toString());
-              },
-              onReceivedHttpError: (controller, request, error) {
-                debugPrint(error.toString());
-              },
-            ),
-          ),
+          buildWebView(),
           // Container(
-          //   color: const Color(0xEFFFFFFF),
+          //   color: const Color(0xaaFFFFFF),
           // ),
           buildBody(),
         ],
+      ),
+    );
+  }
+
+  /// 绘制浏览器组件
+  Widget buildWebView() {
+    return Center(
+      child: Opacity(
+        opacity: 0,
+        child: SizedBox(
+          width: 1,
+          height: 1,
+          child: InAppWebView(
+            onWebViewCreated: controller.initWebController,
+            onLoadStop: controller.onWebViewLoadStop,
+            onReceivedError: (controller, request, error) {
+              debugPrint(error.toString());
+            },
+            onReceivedHttpError: (controller, request, error) {
+              debugPrint(error.toString());
+            },
+          ),
+        ),
       ),
     );
   }
@@ -47,9 +58,10 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
   Widget buildBody() {
     return controller.obx(
       (data) => EasyRefresh(
-        onLoad: () async {
-          bool more = await controller.loadMore();
-          return more ? IndicatorResult.success : IndicatorResult.noMore;
+        controller: controller.easyRefreshController,
+        onLoad: () {
+          controller.loadMore();
+          //return more ? IndicatorResult.success : IndicatorResult.noMore;
         },
         child: ListView.builder(
           itemCount: data!.length,
@@ -59,7 +71,7 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
               behavior: HitTestBehavior.opaque,
               child: buildItem(search),
               onTap: () {
-                showMenu(search);
+                controller.download(search);
               },
             );
           },
@@ -95,7 +107,7 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
             children: [
               ActionChip(
                 onPressed: () {
-                  controller.editingController.text = "寄生兽";
+                  controller.editingController.text = "寄生兽:灰色战队";
                   controller.search();
                 },
                 label: const Text("寄生兽:灰色战队"),
@@ -272,46 +284,76 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
       ),
       padding: EdgeInsets.symmetric(
         horizontal: 20.w,
-        vertical: 10.h,
+        vertical: 20.h,
       ),
       decoration: BoxDecoration(
         color: const Color.fromRGBO(250, 250, 250, 1),
         borderRadius: BorderRadius.circular(5.r),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             search.name,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF333333),
             ),
           ),
           6.verticalSpace,
+
+          /// 文件信息
           Row(
             children: [
               Text(
-                (search.count ?? "" )+ "个文件",
-                style: const TextStyle(
-                  color: Color(0xFF999999),
+                search.size,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  color: const Color.fromARGB(255, 0, 134, 179),
                 ),
               ),
               6.horizontalSpace,
               Text(
-                search.size ?? "",
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 0, 191, 255),
+                "${search.count}个文件",
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  color: const Color(0xFF999999),
                 ),
               ),
             ],
           ),
-          6.verticalSpace,
+          10.verticalSpace,
+
+          /// 文件列表
+          for (var file in search.files) ...{
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: file.name,
+                    style: const TextStyle(
+                      color: Color(0xFF444444),
+                    ),
+                  ),
+                  WidgetSpan(
+                    child: 6.horizontalSpace,
+                  ),
+                  TextSpan(
+                    text: file.size ?? "",
+                    style: const TextStyle(
+                      color: Color(0xFF999999),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            6.verticalSpace,
+          },
           Text(
             search.date,
             style: const TextStyle(
-              color: Color(0xFF999999),
+              color: Color(0xFF006621),
             ),
           ),
         ],

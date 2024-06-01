@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:android_intent_plus/android_intent.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart'
     show Durations, FocusNode, TextEditingController;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -22,8 +24,8 @@ class SearchInputPageLogic extends GetxController
   /// 控制清空内容
   late TextEditingController editingController;
 
-  /// 是否已经开始搜索
-  RxBool init = RxBool(false);
+  /// 控制上拉加载
+  late EasyRefreshController easyRefreshController;
 
   /// 是否获取焦点
   RxBool focus = RxBool(false);
@@ -39,17 +41,16 @@ class SearchInputPageLogic extends GetxController
     editingController.addListener(() {
       key.value = editingController.text;
     });
-    change(null, status: RxStatus.empty());
+    easyRefreshController = EasyRefreshController(controlFinishLoad: true);
+    //change(null, status: RxStatus.loading());
     value = List.empty(growable: true);
 
     //等待页面渲染完成
-    SchedulerBinding.instance.addPostFrameCallback((e) {
-      //debugPrint("addPostFrameCallback");
-      Future.delayed(const Duration(milliseconds: 820))
-          .then((v) => focusNode.requestFocus());
-    });
-
-    //controller = WebviewUtils.init();
+    // SchedulerBinding.instance.addPostFrameCallback((e) {
+    //   //debugPrint("addPostFrameCallback");
+    //   Future.delayed(const Duration(milliseconds: 820))
+    //       .then((v) => focusNode.requestFocus());
+    // });
   }
 
   @override
@@ -63,6 +64,7 @@ class SearchInputPageLogic extends GetxController
     super.onClose();
     focusNode.dispose();
     editingController.dispose();
+    easyRefreshController.dispose();
   }
 
   /// 接口 - 搜索引擎
@@ -70,7 +72,7 @@ class SearchInputPageLogic extends GetxController
 
   /// 浏览器控制器初始化成功
   void initWebController(InAppWebViewController controller) {
-    searchApi = ImplementsSkrbt(controller, onFinish);
+    searchApi = ImplementsSkrbt(controller, onInitFinish, onFinish, onOpen);
   }
 
   /// 浏览器加载首页完成
@@ -81,19 +83,28 @@ class SearchInputPageLogic extends GetxController
   /// 开始搜索
   void search() {
     focusNode.unfocus();
-    init.value = true;
     pageIndex = 1;
     value?.clear();
     change(value, status: RxStatus.loading());
     //loadData();
-    searchApi?.search(key.value);
+    searchApi?.search(key.value, pageIndex);
+  }
+
+  /// 初始化
+  void onInitFinish() {
+    change(value, status: RxStatus.empty());
+    focusNode.requestFocus();
   }
 
   /// 数据到达
   void onFinish(ServiceResultData result) {
     if (result.success) {
+      easyRefreshController.finishLoad();
       if (key.isNotEmpty && result.data.isNotEmpty) {
         value!.addAll(result.data);
+        for (Search element in result.data) {
+          debugPrint("onWebViewLoadStop:${element.name}");
+        }
         //搜索完成，根据结果显示信息
         change(value, status: RxStatus.success());
       } else {
@@ -112,14 +123,45 @@ class SearchInputPageLogic extends GetxController
     /// 3.存在数据
   }
 
+  /// 下载
+  void download(Search search) async {
+    //Get.back();
+    SmartDialog.showLoading(msg: "加载中");
+    searchApi!.open(search);
+    return;
+    if (search.magnet?.isNotEmpty == true) {
+      if (Platform.isWindows) {
+        Uri uri = Uri.parse(search.magnet!);
+        launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else if (Platform.isAndroid) {}
+    }
+  }
+
+  /// 打开地址
+  void onOpen(String magnet) {
+    SmartDialog.dismiss();
+    openInAndroid(magnet);
+  }
+
+  /// 打开 - 安卓
+  void openInAndroid(String magnet) async {
+    
+    try {
+      await AndroidIntent(
+        action: 'action_view',
+        data: magnet,
+        //type: 'video/*',
+      ).launch();
+    } catch (e) {
+      SmartDialog.showToast("打开失败,错误:$e");
+    }
+  }
+
   /// 当前页面
   int pageIndex = 1;
-
-  Future loadMore() async {
+  void loadMore() async {
     pageIndex++;
-    searchApi?.search(key.value);
-    //TODO 这里根据加载盛世剩余
-    return true;
+    searchApi?.search(key.value, pageIndex);
   }
 
   /// 清除输入
@@ -148,37 +190,6 @@ class SearchInputPageLogic extends GetxController
     focusNode.unfocus();
     await Future.delayed(Durations.short2);
     Get.back();
-  }
-
-  /// 下载
-  void download(Search search) async {
-    //String link =
-    //    "thunder://QUFodHRwOi8vZGwxNTEuODBzLmltOjkyMC8xNzExL+i/veW/hi/ov73lv4YubXA0Wlo=";
-    //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-    //intent.addCategory("android.intent.category.DEFAULT");
-    //startActivity(intent);
-    if (search.magnet?.isNotEmpty == true) {
-      if (Platform.isWindows) {
-        Uri uri = Uri.parse(search.magnet!);
-        launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else if (Platform.isAndroid) {
-        openInAndroid(search);
-      }
-    }
-  }
-
-  /// 打开 - 安卓
-  void openInAndroid(Search search) async {
-    Get.back();
-    try {
-      await AndroidIntent(
-        action: 'action_view',
-        data: search.magnet!,
-        //type: 'video/*',
-      ).launch();
-    } catch (e) {
-      SmartDialog.showToast("打开失败,错误:$e");
-    }
   }
 
   /// 复制到剪切板

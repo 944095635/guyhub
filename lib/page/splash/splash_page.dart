@@ -14,13 +14,15 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: const Center(
-        child: Text("Guy Hub"),
+        child: Text(
+          "盖呀",
+          style: TextStyle(fontSize: 60),
+        ),
       ),
     );
   }
 
   void init() async {
-
     /// 插件初始化
     await PathUtils.ensureInitialized();
     ExtensionUtils.ensureInitialized();
