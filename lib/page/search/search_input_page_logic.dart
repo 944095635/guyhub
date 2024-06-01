@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart'
-    show Durations, FocusNode, TextEditingController, debugPrint;
+    show Durations, FocusNode, TextEditingController;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:guyhub/interface/search/implements/implements_skrbt.dart';
+import 'package:guyhub/interface/search/interface_search.dart';
 import 'package:guyhub/model/search.dart';
 import 'package:guyhub/util/http.dart';
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 搜索页面
@@ -47,6 +48,14 @@ class SearchInputPageLogic extends GetxController
       Future.delayed(const Duration(milliseconds: 820))
           .then((v) => focusNode.requestFocus());
     });
+
+    //controller = WebviewUtils.init();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchApi?.dispose();
   }
 
   @override
@@ -56,62 +65,18 @@ class SearchInputPageLogic extends GetxController
     editingController.dispose();
   }
 
-  Future<bool> loadData() async {
-    String url = "https://cn.torrentkitty.ink/search/$key/$pageIndex";
-    //请求首页
-    ServiceResultData result = await Http.get(url);
-    if (result.success) {
-      List<Search> newData = [];
-      debugPrint(result.data);
-      Document document = parse(result.data);
-      //table id="archiveResult"
-      Element? archiveResult = document.getElementById("archiveResult");
-      if (archiveResult != null) {
-        List<Element> trs = archiveResult.getElementsByTagName("tr");
-        for (var tr in trs) {
-          //第一行可能是标题 action 有内容代表种子
-          Element? taction = tr.getElementsByClassName("action").firstOrNull;
-          if (taction?.innerHtml.isNotEmpty == true) {
-            Search search = Search();
-            Element? tname = tr.getElementsByClassName("name").firstOrNull;
-            Element? tdate = tr.getElementsByClassName("date").firstOrNull;
-            search.name = tname?.innerHtml ?? "";
-            search.date = tdate?.innerHtml ?? "";
+  /// 接口 - 搜索引擎
+  InterfaceSearch? searchApi;
 
-            List<Element> hrefs = taction!.getElementsByTagName("a");
-            //rel
-            for (var href in hrefs) {
-              if (href.attributes["rel"] == "magnet") {
-                search.magnet = href.attributes["href"];
-              }
-            }
-            debugPrint("搜索到种子:${search.name}");
-            newData.add(search);
-          }
-        }
-      }
-
-      /// 没有新数据&或者&用户提前清除了搜索内容
-      if (key.isNotEmpty && newData.isNotEmpty) {
-        value!.addAll(newData);
-        //搜索完成，根据结果显示信息
-        change(value, status: RxStatus.success());
-        return true;
-      } else {
-        if (pageIndex == 1) {
-          //搜索完成，但是没有数据
-          change(value, status: RxStatus.empty());
-        }
-        return false;
-      }
-    } else {
-      change(value, status: RxStatus.error());
-      return false;
-    }
+  /// 浏览器控制器初始化成功
+  void initWebController(InAppWebViewController controller) {
+    searchApi = ImplementsSkrbt(controller, onFinish);
   }
 
-  /// 当前页面
-  int pageIndex = 1;
+  /// 浏览器加载首页完成
+  void onWebViewLoadStop(InAppWebViewController controller, WebUri? url) {
+    searchApi!.onWebViewLoadStop(url);
+  }
 
   /// 开始搜索
   void search() {
@@ -120,12 +85,41 @@ class SearchInputPageLogic extends GetxController
     pageIndex = 1;
     value?.clear();
     change(value, status: RxStatus.loading());
-    loadData();
+    //loadData();
+    searchApi?.search(key.value);
   }
+
+  /// 数据到达
+  void onFinish(ServiceResultData result) {
+    if (result.success) {
+      if (key.isNotEmpty && result.data.isNotEmpty) {
+        value!.addAll(result.data);
+        //搜索完成，根据结果显示信息
+        change(value, status: RxStatus.success());
+      } else {
+        if (pageIndex == 1) {
+          //搜索完成，但是没有数据
+          change(value, status: RxStatus.empty());
+        }
+      }
+    } else {
+      change(value, status: RxStatus.error());
+    }
+
+    /// 会有几种状态
+    /// 1.网络异常或者解析失败，这种无法处理
+    /// 2.网络正常解析正常，但是没有数据
+    /// 3.存在数据
+  }
+
+  /// 当前页面
+  int pageIndex = 1;
 
   Future loadMore() async {
     pageIndex++;
-    return loadData();
+    searchApi?.search(key.value);
+    //TODO 这里根据加载盛世剩余
+    return true;
   }
 
   /// 清除输入

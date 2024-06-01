@@ -1,5 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guyhub/model/search.dart';
@@ -17,37 +18,63 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
       appBar: buildAppbar(),
       //让键盘盖住内容-防止loading跳动
       resizeToAvoidBottomInset: false,
-      body: controller.obx(
-        (data) => EasyRefresh(
-          onLoad: () async {
-            bool more = await controller.loadMore();
-            return more ? IndicatorResult.success : IndicatorResult.noMore;
-          },
-          child: ListView.builder(
-            itemCount: data!.length,
-            itemBuilder: (context, index) {
-              Search search = data[index];
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                child: buildItem(search),
-                onTap: () {
-                  showMenu(search);
-                },
-              );
-            },
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 1,
+            child: InAppWebView(
+              onWebViewCreated: controller.initWebController,
+              onLoadStop: controller.onWebViewLoadStop,
+              onReceivedError: (controller, request, error) {
+                debugPrint(error.toString());
+              },
+              onReceivedHttpError: (controller, request, error) {
+                debugPrint(error.toString());
+              },
+            ),
           ),
-        ),
-        onEmpty: Obx(
-          //当输入了搜索词 并且 没有焦点 显示 空数据
-          () => controller.key.isNotEmpty && !controller.focus.value
-              ? buildEmpty()
-              //获得焦点显示引导，没有焦点不显示任何东西(刚进入界面)
-              : controller.focus.value
-                  ? buildIntro()
-                  : const SizedBox(),
-        ),
-        onError: (e) => buildError(),
+          // Container(
+          //   color: const Color(0xEFFFFFFF),
+          // ),
+          buildBody(),
+        ],
       ),
+    );
+  }
+
+  /// 绘制主题
+  Widget buildBody() {
+    return controller.obx(
+      (data) => EasyRefresh(
+        onLoad: () async {
+          bool more = await controller.loadMore();
+          return more ? IndicatorResult.success : IndicatorResult.noMore;
+        },
+        child: ListView.builder(
+          itemCount: data!.length,
+          itemBuilder: (context, index) {
+            Search search = data[index];
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              child: buildItem(search),
+              onTap: () {
+                showMenu(search);
+              },
+            );
+          },
+        ),
+      ),
+      onEmpty: Obx(
+        //当输入了搜索词 并且 没有焦点 显示 空数据
+        () => controller.key.isNotEmpty && !controller.focus.value
+            ? buildEmpty()
+            //获得焦点显示引导，没有焦点不显示任何东西(刚进入界面)
+            : controller.focus.value
+                ? buildIntro()
+                : const SizedBox(),
+      ),
+      onError: (e) => buildError(),
     );
   }
 
@@ -261,6 +288,24 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
               fontWeight: FontWeight.bold,
               color: const Color(0xFF333333),
             ),
+          ),
+          6.verticalSpace,
+          Row(
+            children: [
+              Text(
+                (search.count ?? "" )+ "个文件",
+                style: const TextStyle(
+                  color: Color(0xFF999999),
+                ),
+              ),
+              6.horizontalSpace,
+              Text(
+                search.size ?? "",
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 0, 191, 255),
+                ),
+              ),
+            ],
           ),
           6.verticalSpace,
           Text(

@@ -72,6 +72,8 @@ dependencies:
   http: ^1.2.1                         #网络请求
   html: ^0.15.4
   flutter_js: ^0.8.0                   #执行JS
+  # webview_flutter: ^4.8.0              #浏览器
+  flutter_inappwebview: ^6.0.0         #浏览器
   xpath_selector_html_parser: ^3.0.1
   # --------------------------------------------
 
