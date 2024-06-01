@@ -57,7 +57,7 @@ abstract class InterfaceSearch {
       onInit?.call();
     } else if (webUri?.rawValue.contains("302") == true) {
       initSuccess = true;
-      //onInit?.call();
+      onInit?.call();
     } else if (webUri?.rawValue.contains(detail) == true) {
       String? href = await analysisDetail();
       if (href != null) {

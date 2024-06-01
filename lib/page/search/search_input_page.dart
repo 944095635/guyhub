@@ -33,22 +33,20 @@ class SearchInputPage extends GetView<SearchInputPageLogic> {
 
   /// 绘制浏览器组件
   Widget buildWebView() {
-    return Center(
-      child: Opacity(
-        opacity: 0,
-        child: SizedBox(
-          width: 1,
-          height: 1,
-          child: InAppWebView(
-            onWebViewCreated: controller.initWebController,
-            onLoadStop: controller.onWebViewLoadStop,
-            onReceivedError: (controller, request, error) {
-              debugPrint(error.toString());
-            },
-            onReceivedHttpError: (controller, request, error) {
-              debugPrint(error.toString());
-            },
-          ),
+    return Opacity(
+      opacity: 1,
+      child: SizedBox(
+        width: 1,
+        height: 1,
+        child: InAppWebView(
+          onWebViewCreated: controller.initWebController,
+          onLoadStop: controller.onWebViewLoadStop,
+          onReceivedError: (controller, request, error) {
+            debugPrint(error.toString());
+          },
+          onReceivedHttpError: (controller, request, error) {
+            debugPrint(error.toString());
+          },
         ),
       ),
     );
