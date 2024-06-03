@@ -8,9 +8,10 @@ import 'package:get/get.dart';
 import 'package:guyhub/page/splash/splash_page.dart';
 import 'package:guyhub/style/theme.dart';
 
-void main() {
+void main() async {
   ///确保Flutter渲染绑定完成
   WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
   runApp(const MyApp());
 }
 
